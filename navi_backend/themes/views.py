@@ -31,6 +31,7 @@ def detail(request, theme_id):
         return Response(data)
 
     elif request.method == 'PUT':
+        # 권한 설정에 대한 코드가 필요합니다.
         serializer = ThemeCreateSerializer(theme, data=request.data)
         if serializer.is_valid(raise_exception=True):
             theme = serializer.save()
@@ -40,4 +41,6 @@ def detail(request, theme_id):
         return Response(data, status=status.HTTP_201_CREATED)
 
     elif request.method == 'DELETE':
-        pass
+        # 권한 설정에 대한 코드가 필요합니다.
+        theme.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
