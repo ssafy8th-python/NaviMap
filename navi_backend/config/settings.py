@@ -33,8 +33,10 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     # apps
     'accounts',
+    'themes',
 
     # third prty apps
+    'rest_framework',
 
     'django.contrib.admin',
     'django.contrib.auth',
