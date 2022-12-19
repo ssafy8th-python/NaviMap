@@ -1,5 +1,6 @@
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
+from rest_framework import status
 from .serializers import ThemeCreateSerializer, ThemeDetailSerializer
 from .models import Theme
 from django.shortcuts import get_object_or_404
@@ -30,7 +31,13 @@ def detail(request, theme_id):
         return Response(data)
 
     elif request.method == 'PUT':
-        pass
+        serializer = ThemeCreateSerializer(theme, data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            theme = serializer.save()
+        data = {
+            'theme_id': theme.id,
+        }
+        return Response(data, status=status.HTTP_201_CREATED)
 
     elif request.method == 'DELETE':
         pass
