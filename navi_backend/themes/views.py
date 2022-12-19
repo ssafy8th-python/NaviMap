@@ -1,6 +1,8 @@
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from .serializers import ThemeCreateSerializer
+from .serializers import ThemeCreateSerializer, ThemeDetailSerializer
+from .models import Theme
+from django.shortcuts import get_object_or_404
 
 @api_view(['POST'])
 def create(request):
@@ -15,3 +17,20 @@ def create(request):
     }
     return Response(data)
 
+
+@api_view(['GET', 'PUT', 'DELETE'])
+def detail(request, theme_id):
+    theme = get_object_or_404(Theme, id=theme_id)
+
+    if request.method == 'GET':
+        serializer = ThemeDetailSerializer(theme)
+        data = {
+            'theme': serializer.data,
+        }
+        return Response(data)
+
+    elif request.method == 'PUT':
+        pass
+
+    elif request.method == 'DELETE':
+        pass
