@@ -110,7 +110,7 @@ def create(request):
 @api_view(['GET'])
 def mainpage(request):
     latest_recos = Theme.objects.order_by('-created')[:6]
-    popular_recos = Theme.objects.annotate(like_count=Count('theme_likes')).order_by('-like_count')
+    popular_recos = Theme.objects.annotate(like_count=Count('theme_likes')).order_by('-like_count')[:6]
     
 
     # 오늘의 추천 3개 (날씨, 계절, 미세먼지 등 알고리즘 적용)
@@ -133,3 +133,19 @@ def mainpage(request):
     
     return Response(context)
 
+
+@api_view(['POST'])
+def likes(request, theme_id):
+    theme = Theme.objects.get(pk=theme_id)
+
+    if theme.theme_likes.filter(pk=request.user.pk).exists():
+        theme.theme_likes.remove(request.user)
+        is_like = False
+    else:
+        theme.theme_likes.add(request.user)
+        is_like = True
+    
+    context = {
+        'is_like': is_like
+    }
+    return Response(context)
