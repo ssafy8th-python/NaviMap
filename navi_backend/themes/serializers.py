@@ -7,7 +7,7 @@ class ThemeCreateSerializer(serializers.ModelSerializer):
         model = Theme
         fields = '__all__'
 
-        read_only_fields = ('theme_creator', 'theme_tags')
+        read_only_fields = ('theme_creator', 'theme_tags', 'theme_likes')
 
 
 class MainPageSerializer(serializers.ModelSerializer):

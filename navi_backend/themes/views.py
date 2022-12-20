@@ -1,3 +1,4 @@
+from django.db.models import Count
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from .serializers import ThemeCreateSerializer, MainPageSerializer
@@ -106,24 +107,12 @@ def create(request):
 
 
 
-
-def latest_theme_sort(themes):
-    return sorted(themes, key=lambda x: x.created, reverse=True)
-
-
-# 인기순 정렬을 위한 함수
-# def popular_theme_sort(themes):
-#     return sorted(themes, key=lambda x: x.theme_likes, reverse=True)
-
-
 @api_view(['GET'])
 def mainpage(request):
-    themes = Theme.objects.all()
-    latest_recos = latest_theme_sort(themes)[:6]
+    latest_recos = Theme.objects.order_by('-created')[:6]
+    popular_recos = Theme.objects.annotate(like_count=Count('theme_likes')).order_by('-like_count')
     
-    # 메인페이지의 인기순 정렬 테마 6개
-    # popular_recos = popular_theme_sort(themes)[:6]
-    
+
     # 오늘의 추천 3개 (날씨, 계절, 미세먼지 등 알고리즘 적용)
     # today_recos = []
 
@@ -131,15 +120,16 @@ def mainpage(request):
     # personal_recos = []
 
     latest_serializer = MainPageSerializer(latest_recos, many=True)
-    # popular_serializer = MainPageSerializer(popular_recos, many=True)
+    popular_serializer = MainPageSerializer(popular_recos, many=True)
     # today_serializer = MainPageSerializer(today_recos, many=True)
     # personal_serializer = MainPageSerializer(personal_recos, many=True)
 
     context = {
         'latest_recos': latest_serializer.data,
-        # 'popular_recos': popular_serializer.data,
+        'popular_recos': popular_serializer.data,
         # 'today_recos': today_serializer.data,
         # 'personal_recos': personal_serializer.data,
     }
     
     return Response(context)
+
