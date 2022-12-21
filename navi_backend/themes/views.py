@@ -22,8 +22,7 @@ def create(request):
 def weather(request, lat, lon):
 
     # cloud: 구름의 양, precipitation: 강수형태,  lat: 위도, lon: 경도
-    cloud, precipitation = getWeather(float(lat), float(lon))
+    cloud, precipitation = getWeather(lat, lon)
 
-    # cloud
     print(cloud, precipitation)
 

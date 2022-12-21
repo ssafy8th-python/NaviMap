@@ -1,6 +1,7 @@
 import math, requests, json
 from datetime import date, timedelta
-import datetime
+from django.core.cache import cache
+import datetime, os
 
 
 NX = 149            ## X축 격자점 수
@@ -77,6 +78,21 @@ def gridToMap(x, y, code = 1):
     return lat, lon
     
 def getWeather(lat, lon):
+    tmp_lat = lat.split('.')[0]
+    tmp_lon = lon.split('.')[0]
+
+    location = 'location'+tmp_lat+'_'+tmp_lon
+
+    weather = cache.get(location)
+
+    if weather:
+        cloud, precipitation = weather
+        # cache.delete(location)
+
+        return cloud, precipitation
+
+    lat = float(lat)
+    lon = float(lon)
 
     # 시간 설정
     yesterday = date.today() - timedelta(1)
@@ -106,7 +122,8 @@ def getWeather(lat, lon):
     
     # 위도, 경도
     x, y = mapToGrid(float(lat), float(lon))
-    params ={'serviceKey' : 'PdQcIy3lRYnmnVl6O7Pfs+4Fry+jMr5VHCxOU21Sx5LJaNTz1SW01db0uIClIDNJsUktt4ad93uxMjNZ/pPekw==', 'pageNo' : '1', 'numOfRows' : '1000', 'dataType' : 'JSON', 'base_date' : base_date, 'base_time' : base_time, 'nx' : x, 'ny' : y }
+    WEATHER_SECRET_KEY = os.environ.get('WEATHER_SECRET_KEY')
+    params ={'serviceKey' : WEATHER_SECRET_KEY, 'pageNo' : '1', 'numOfRows' : '1000', 'dataType' : 'JSON', 'base_date' : base_date, 'base_time' : base_time, 'nx' : x, 'ny' : y }
 
     response = requests.get(url, params=params)
     content = response.content
@@ -135,7 +152,7 @@ def getWeather(lat, lon):
                     precipitation = "눈"
                 elif weather['fcstValue'] == '4':
                     precipitation = "소나기"
-
+    cache.set(location, (cloud, precipitation), 3600)
     return cloud, precipitation
 
     
