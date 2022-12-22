@@ -5,8 +5,19 @@ from .weather import getWeather
 from rest_framework import status
 from .serializers import ThemeCreateSerializer, ThemeListSerializer, ThemeDetailSerializer, MainPageSerializer
 from .models import Theme
+from drf_yasg import openapi
+from drf_yasg.utils import swagger_auto_schema
 
 
+theme_id_response = openapi.Response('int : theme_id')
+
+
+@swagger_auto_schema(
+    method='POST', 
+    operation_description='''api 정보 : 테마를 생성합니다.''',
+    request_body=ThemeCreateSerializer,
+    responses={201: theme_id_response},
+)
 @api_view(['POST'])
 def create(request):
 
@@ -67,6 +78,23 @@ def likes(request, theme_id):
     return Response(data)
 
 
+@swagger_auto_schema(
+    method='GET', 
+    operation_description='''api 정보 : 테마 상세페이지를 불러옵니다.
+    theme_id : 테마 id를 입력해주세요. ''', 
+    responses={200: ThemeDetailSerializer},
+)
+@swagger_auto_schema(
+    method='PUT', 
+    operation_description='''api 정보 : 테마 정보를 수정합니다.
+    theme_id : 테마 id를 입력해주세요. ''', 
+    responses={201: theme_id_response},
+)
+@swagger_auto_schema(
+    method='DELETE', 
+    operation_description='''api 정보 : 테마를 삭제합니다.
+    theme_id : 테마 id를 입력해주세요. ''', 
+)
 @api_view(['GET', 'PUT', 'DELETE'])
 def detail(request, theme_id):
     theme = get_object_or_404(Theme, id=theme_id)
@@ -94,6 +122,12 @@ def detail(request, theme_id):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
+@swagger_auto_schema(
+    method='GET', 
+    operation_description='''api 정보 : 테마 정보를 인기순 or 최신순으로 불러올 수 있습니다.
+    list_name : latest or popular 값을 넣을 수 있습니다. ''', 
+    responses={200: ThemeListSerializer(many=True)},
+)
 @api_view(['GET'])
 def theme_list(request, list_name):
     if list_name == 'latest':
@@ -115,11 +149,24 @@ def theme_list(request, list_name):
     return Response(data)
 
 
+@swagger_auto_schema(
+    method='GET', 
+    operation_description='''api 정보 : 현재 날씨 정보를 가져옵니다.
+    lat : 위도를 입력해주세요.
+    lon : 경도를 입력해주세요. ''', 
+    responses={200: '''cloud : String
+    precipitation : String'''},
+)
 @api_view(['GET'])
 def weather(request, lat, lon):
 
     # cloud: 구름의 양, precipitation: 강수형태,  lat: 위도, lon: 경도
     cloud, precipitation = getWeather(lat, lon)
 
-    print(cloud, precipitation)
+    data = {
+        'cloud' : cloud,
+        'precipitation' : precipitation,
+    }
+    
+    return Response(data)
 

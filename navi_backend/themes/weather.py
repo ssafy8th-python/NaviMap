@@ -78,18 +78,20 @@ def gridToMap(x, y, code = 1):
     return lat, lon
     
 def getWeather(lat, lon):
-    tmp_lat = lat.split('.')[0]
-    tmp_lon = lon.split('.')[0]
 
-    location = 'location'+tmp_lat+'_'+tmp_lon
+    # 캐시에 대한 코드
+    # tmp_lat = lat.split('.')[0]
+    # tmp_lon = lon.split('.')[0]
 
-    weather = cache.get(location)
+    # location = 'location'+tmp_lat+'_'+tmp_lon
 
-    if weather:
-        cloud, precipitation = weather
-        # cache.delete(location)
+    # weather = cache.get(location)
 
-        return cloud, precipitation
+    # if weather:
+    #     cloud, precipitation = weather
+    #     # cache.delete(location)
+
+    #     return cloud, precipitation
 
     lat = float(lat)
     lon = float(lon)
@@ -152,7 +154,8 @@ def getWeather(lat, lon):
                     precipitation = "눈"
                 elif weather['fcstValue'] == '4':
                     precipitation = "소나기"
-    cache.set(location, (cloud, precipitation), 3600)
+    # 캐시에 대한 코드
+    # cache.set(location, (cloud, precipitation), 3600)
     return cloud, precipitation
 
     
