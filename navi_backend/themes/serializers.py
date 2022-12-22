@@ -8,3 +8,10 @@ class ThemeCreateSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
         read_only_fields = ('theme_creator', 'theme_tags')
+
+
+class ThemeListSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Theme
+        exclude = ('is_update', )
