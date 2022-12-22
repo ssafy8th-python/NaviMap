@@ -1,15 +1,9 @@
 <template>
 	<div>
 		<h3>테마</h3>
-		<div>
-			<span class="theme-item">
-				경치 좋은 카페
-			</span>
-			<span class="theme-item">
-				공부하기 좋은 카페
-			</span>
-			<span class="theme-item">
-				나만 알고 싶은 명소
+		<div class="theme-item" v-for="(theme, idx) in themeArray" :key="idx">
+			<span>
+				{{theme}}
 			</span>
 		</div>
 	</div>
@@ -18,6 +12,15 @@
 <script>
 export default {
 	name:'TheThemes',
+	data(){
+		return{
+			themeArray:[
+				'서점 모음',
+				'휴일에 가기 좋은 곳',
+				'데이트 장소 리스트'
+			]
+		}
+	}
 }
 </script>
 
