@@ -1,6 +1,7 @@
 from django.db.models import Count
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
+from .weather import getWeather
 from rest_framework import status
 from .serializers import ThemeCreateSerializer, ThemeListSerializer, ThemeDetailSerializer, MainPageSerializer
 from .models import Theme
@@ -112,4 +113,13 @@ def theme_list(request, list_name):
     }
 
     return Response(data)
+
+
+@api_view(['GET'])
+def weather(request, lat, lon):
+
+    # cloud: 구름의 양, precipitation: 강수형태,  lat: 위도, lon: 경도
+    cloud, precipitation = getWeather(lat, lon)
+
+    print(cloud, precipitation)
 
