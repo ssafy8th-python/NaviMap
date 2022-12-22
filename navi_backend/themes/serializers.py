@@ -15,3 +15,11 @@ class ThemeDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = Theme
         fields = '__all__'
+
+
+class ThemeListSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Theme
+        exclude = ('is_update', )
+
