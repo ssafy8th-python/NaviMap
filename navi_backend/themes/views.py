@@ -1,8 +1,10 @@
 from django.db.models import Count
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from .serializers import ThemeCreateSerializer, MainPageSerializer
+from rest_framework import status
+from .serializers import ThemeCreateSerializer, ThemeListSerializer, ThemeDetailSerializer, MainPageSerializer
 from .models import Theme
+
 
 @api_view(['POST'])
 def create(request):
@@ -16,96 +18,7 @@ def create(request):
         'theme_id': theme.id,
     }
     return Response(data)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    
 
 @api_view(['GET'])
 def mainpage(request):
@@ -124,16 +37,17 @@ def mainpage(request):
     # today_serializer = MainPageSerializer(today_recos, many=True)
     # personal_serializer = MainPageSerializer(personal_recos, many=True)
 
-    context = {
+    data = {
         'latest_recos': latest_serializer.data,
         'popular_recos': popular_serializer.data,
         # 'today_recos': today_serializer.data,
         # 'personal_recos': personal_serializer.data,
     }
     
-    return Response(context)
+    return Response(data)
 
 
+# Test 필요
 @api_view(['POST'])
 def likes(request, theme_id):
     theme = Theme.objects.get(pk=theme_id)
@@ -145,7 +59,57 @@ def likes(request, theme_id):
         theme.theme_likes.add(request.user)
         is_like = True
     
-    context = {
+    data = {
         'is_like': is_like
     }
-    return Response(context)
+    
+    return Response(data)
+
+
+@api_view(['GET', 'PUT', 'DELETE'])
+def detail(request, theme_id):
+    theme = get_object_or_404(Theme, id=theme_id)
+
+    if request.method == 'GET':
+        serializer = ThemeDetailSerializer(theme)
+        data = {
+            'theme': serializer.data,
+        }
+        return Response(data)
+
+    elif request.method == 'PUT':
+        # 권한 설정에 대한 코드가 필요합니다.
+        serializer = ThemeCreateSerializer(theme, data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            theme = serializer.save()
+        data = {
+            'theme_id': theme.id,
+        }
+        return Response(data, status=status.HTTP_201_CREATED)
+
+    elif request.method == 'DELETE':
+        # 권한 설정에 대한 코드가 필요합니다.
+        theme.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+@api_view(['GET'])
+def theme_list(request, list_name):
+    if list_name == 'latest':
+        themes = Theme.objects.all().order_by('created')
+
+    # 좋아요가 많은 순으로 출력
+    # elif(list_name == 'popular'):
+    #     themes = Theme.objects.all().order_by('theme_likes')
+
+    else:
+        return Response(status.HTTP_404_NOT_FOUND)
+
+    serializer = ThemeListSerializer(themes, many=True)
+
+    data = {
+        'themes': serializer.data
+    }
+
+    return Response(data)
+
