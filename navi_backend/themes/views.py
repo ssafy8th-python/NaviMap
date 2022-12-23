@@ -1,4 +1,5 @@
 from django.db.models import Count
+from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from .weather import getWeather
@@ -131,11 +132,11 @@ def detail(request, theme_id):
 @api_view(['GET'])
 def theme_list(request, list_name):
     if list_name == 'latest':
-        themes = Theme.objects.all().order_by('created')
+        themes = Theme.objects.all().order_by('-created')[:9]
 
     # 좋아요가 많은 순으로 출력
-    # elif(list_name == 'popular'):
-    #     themes = Theme.objects.all().order_by('theme_likes')
+    elif(list_name == 'popular'):
+        themes = Theme.objects.annotate(like_count=Count('theme_likes')).order_by('-like_count')[:9]
 
     else:
         return Response(status.HTTP_404_NOT_FOUND)

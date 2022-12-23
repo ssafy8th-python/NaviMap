@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     # apps
     'accounts',
     'themes',
+    'places',
 
     # third prty apps
     'rest_framework',

@@ -48,6 +48,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/v1/accounts/', include('accounts.urls')),
     path('api/v1/themes/', include('themes.urls')),
+    path('api/v1/places/', include('places.urls')),
     path('api/v1/', views.mainpage),
 
     re_path(r'^swagger(?P<format>\.json|\.yaml)$', schema_view.without_ui(cache_timeout=0), name='schema-json'),
