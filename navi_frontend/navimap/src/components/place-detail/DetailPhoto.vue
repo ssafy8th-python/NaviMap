@@ -6,7 +6,7 @@
 				<carousel
 				:responsive="{0:{items:3,nav:false,dots:true,margin:10,}}"
 				>
-					<img v-for="(img, index) in images" :src="img" :key="index" >
+					<img v-for="(img, index) in images" :src="img" :key="index" onclick="window.open(this.src,'asdfo8or','scrollbars=yes,width=417,height=385,top=10,left=20');">
 				</carousel>
 			
 			</div>
@@ -57,5 +57,8 @@ export default {
 		margin:auto;
 	}
 
+	img{
+		cursor: pointer;
+	}
 
 </style>
