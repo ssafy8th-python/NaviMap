@@ -16,3 +16,5 @@ class Theme(models.Model):
     theme_tags = models.ManyToManyField(Tag, related_name="tag_themes")
     created = models.DateTimeField(auto_now_add=True)
 
+    # 좋아요 한 유저가 담겨있습니다.
+    theme_likes = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='user_themes_likes')
