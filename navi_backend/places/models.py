@@ -22,6 +22,7 @@ class Review(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     place = models.ForeignKey(Place, on_delete=models.CASCADE)
     content = models.TextField()
+    emoticon = models.CharField(max_length=100)
     img_path = models.ImageField(blank=True, null=True)
 
 
