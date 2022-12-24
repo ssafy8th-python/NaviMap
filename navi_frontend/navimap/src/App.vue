@@ -1,12 +1,27 @@
 <template>
   <div id="app">
-    <!-- <nav>
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </nav> -->
+
     <router-view/>
+    <div>
+      <TodayRecommended/>
+      <PersonalRecommended/>
+    </div>
   </div>
 </template>
+
+<script>
+import TodayRecommended from '@/views/Home/TodayRecommended.vue'
+import PersonalRecommended from '@/views/Home/PersonalRecommended.vue'
+
+export default {
+  name: 'App',
+  components: {
+    TodayRecommended,
+    PersonalRecommended,
+  }
+}
+</script>
+
 
 <style>
 #app {
