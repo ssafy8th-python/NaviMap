@@ -27,13 +27,13 @@ def create(request):
     
 
 @api_view(['GET'])
-def mainpage(request):
+def mainpage(request, weather_data):
     latest_recos = Theme.objects.order_by('-created')[:6]
     popular_recos = Theme.objects.annotate(like_count=Count('theme_likes')).order_by('-like_count')[:6]
     
 
     # 오늘의 추천 3개 (날씨, 계절, 미세먼지 등 알고리즘 적용)
-    today_recos = today_reco()
+    today_recos = today_reco(weather_data)
 
     # 개인별 추천 3개 (좋아요한 테마와 비슷한 테마, 좋아요한 유저의 테마, 최근 검색한 테마와 비슷한 테마 등)
     # personal_recos = []
@@ -124,12 +124,18 @@ def theme_list(request, list_name):
 def weather(request, lat, lon):
 
     # cloud: 구름의 양, precipitation: 강수형태,  lat: 위도, lon: 경도
+    # (tuple | tuple[Unbound | Literal['맑음', '구름많음', '흐림'], Unbound | Literal['비', '비눈', '눈', '소나기', '없음']])
     cloud, precipitation = getWeather(lat, lon)
 
-    print(cloud, precipitation)
+    # print(cloud, precipitation)
+    data = {
+        'cloud': cloud,
+        'precipitation': precipitation,
+    }
 
+    return Response(data)
 
-def today_reco():
+def today_reco(weather_data):
     today_recos = []
 
     # 계절별 추천
@@ -138,45 +144,76 @@ def today_reco():
     # 임시태그 (tags의 pk가 담겨있어야함)
     SEASON_TAGS = {
         'spring': [1, 2, 3, 4], # ['따뜻한', '화려한', '포근한', '설레는'],
-        'summer': [5, 6, 7, 8], # ['시원한', '신나는', '화려한', '화끈한'],
+        'summer': [5, 6, 7, 8], # ['시원한', '신나는', '붐비는', '화끈한'],
         'autumn': [9, 10, 11, 12], # ['분위기 있는', '은은한', '차분한', '조용한'],
-        'winter': [13, 14, 15, 16], # ['따뜻한', '안락한', '조용한', '포근한'],
+        'winter': [1, 3, 12, 13], # ['따뜻한', '포근한', '조용한', '안락한'],
     }
 
     if this_month in [3, 4, 5]: # 봄
-        theme = Theme.objects.filter(
+        theme_season = Theme.objects.filter(
                 theme_tags__in=SEASON_TAGS.get('spring')
             ).annotate(
                 like_count=Count('theme_likes')
             ).order_by('-like_count')
         
     elif this_month in [6, 7, 8]: # 여름
-        theme = Theme.objects.filter(
+        theme_season = Theme.objects.filter(
                 theme_tags__in=SEASON_TAGS.get('summer')
             ).annotate(
                 like_count=Count('theme_likes')
             ).order_by('-like_count')
     
     elif this_month in [9, 10, 11]: # 가을
-        theme = Theme.objects.filter(
+        theme_season = Theme.objects.filter(
                 theme_tags__in=SEASON_TAGS.get('autumn')
             ).annotate(
                 like_count=Count('theme_likes')
             ).order_by('-like_count')
     
     elif this_month in [12, 1, 2]: # 겨울
-        theme = Theme.objects.filter(
+        theme_season = Theme.objects.filter(
                 theme_tags__in=SEASON_TAGS.get('winter')
             ).annotate(
                 like_count=Count('theme_likes')
             ).order_by('-like_count')
 
-    if theme:
-        today_recos.append(theme[0])
+    if theme_season:
+        today_recos.append(theme_season[0])
     
     # 날씨별 추천
-    # 작성중
+    cloud, precipitation = weather_data.get('cloud'), weather_data.get('precipitation')
+    
+    weather_tags = []
 
+    if cloud == '맑음':
+        weather_tags.extend([6,]) # [신나는] 등 태그 삽입
+    elif cloud == '구름많음':
+        weather_tags.extend([9, 15,]) # [분위기 있는, 조용한] 등 태그 삽입
+    elif cloud == '흐림':
+        weather_tags.extend([3, 13,]) # [포근한, 안락한] 등 태그 삽입
+
+    if precipitation == '비':
+        weather_tags.extend([9, 10, ]) # [분위기 있는, 은은한] 등 태그 삽입
+    elif precipitation == '비눈':
+        weather_tags.extend([1, 9, ]) # [따뜻한, 분위기 있는] 등 태그 삽입
+    elif precipitation == '눈':
+        weather_tags.extend([1, 3, 13, ]) # [따뜻한, 포근한, 안락한 ] 등 태그 삽입
+    elif precipitation == '소나기':
+        weather_tags.extend([11, 12,]) # [차분한, 조용한] 등 태그 삽입
+    elif precipitation == '없음':
+        weather_tags.extend([6, 7,]) # [신나는, 붐비는] 등 태그 삽입
+    
+    weather_tags = list(set(weather_tags))
+    
+    theme_weather = Theme.objects.filter(
+            theme_tags__in=weather_tags
+        ).annotate(
+            like_count=Count('theme_likes')
+        ).order_by('-like_count')
+
+    if theme_weather:
+        today_recos.append(theme_weather[0])
+    
     return today_recos
 
 def test(target):
