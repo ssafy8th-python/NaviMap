@@ -91,7 +91,6 @@ export default {
 			this.emoticonList = newImoticonList
 			this.reviewContent = ''
 			this.selectedEmoticon = ''
-			
 			alert('메모리 로그가 저장되었습니다!')
 		},
 		selectEmoticon(emoticon){
