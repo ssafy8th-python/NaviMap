@@ -15,7 +15,6 @@ import environ
 from pathlib import Path
 
 env = environ.Env(DEBUG=(bool, True))
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -41,6 +40,7 @@ INSTALLED_APPS = [
     # apps
     'accounts',
     'themes',
+    'places',
 
     # third prty apps
     'rest_framework',
@@ -51,6 +51,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    # swagger
+    'drf_yasg',
 ]
 
 MIDDLEWARE = [
@@ -145,3 +148,15 @@ KAKAO_APP_CONFIG = {
     'REDIRECT_URI': env('KAKAO_REDIRECT_URI'),
     'CLIENT_SECRET': env('KAKAO_CLIENT_SECRET'),
 }
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.memcached.PyMemcacheCache',
+        'LOCATION': '127.0.0.1:11211',
+    }
+}
+
+env_path = BASE_DIR / ".env"
+if env_path.exists():
+    with env_path.open("rt", encoding="utf8") as f:
+        env.read_env(f, overwrite=True)
