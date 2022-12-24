@@ -64,6 +64,8 @@ export default {
 .body{
 	height: 90%;
 	overflow: auto;
+	background-color:#f8f9fa;
+
 }
 .add-place-info{
 	display: flex;

@@ -3,7 +3,7 @@
 		<div class="detail-container">
 			<div class="detail-box-container">
 				<div class="detail-header-container">
-					<h2>별마당 도서관</h2>
+					<div class="header-para">별마당 도서관</div>
 					<span>서울특별시 강남구 영동대로 513 스타필드 코엑스몰 B1</span>
 				</div>
 				<div class="detail-body-container">
@@ -78,6 +78,9 @@ export default {
 </script>
 
 <style scoped>
+	.header-para{
+		font-size:1.7em;
+	}
 	.detail-page{
 		position: fixed;
 		z-index: 10;

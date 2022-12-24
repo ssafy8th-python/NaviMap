@@ -165,6 +165,7 @@ export default {
 .body{
 	height: 80%;
 	overflow: auto;
+	background-color:#f8f9fa;
 }
 .footer{
 	text-align: center;	

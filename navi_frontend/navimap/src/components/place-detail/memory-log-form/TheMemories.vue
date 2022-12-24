@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<h3>추억 로그들</h3>
+		<div class="head-para">추억 로그들</div>
 		<div 
 			class="memory-log-box"
 		>
