@@ -1,23 +1,47 @@
 <template>
   <div id="app">
-
-    <router-view/>
-    <div>
+    <v-row>
       <TodayRecommended/>
       <PersonalRecommended/>
-    </div>
+    </v-row>
+    <br>
+    <v-divider></v-divider>
+    <RecentThema/>
+    <PopularThema/>
+    
+    <v-btn 
+      block
+      style="margin:30px;"
+      >
+      전체 테마 보기
+    </v-btn>
+    
+    <!-- 테마 추가 버튼 -->
+    <v-btn
+      class="mx-2"
+      fab
+      dark
+    >
+      <v-icon>
+        mdi-plus
+      </v-icon>
+    </v-btn>
+
   </div>
 </template>
-
 <script>
 import TodayRecommended from '@/views/Home/TodayRecommended.vue'
 import PersonalRecommended from '@/views/Home/PersonalRecommended.vue'
+import RecentThema from '@/views/Home/RecentThema.vue'
+import PopularThema from '@/views/Home/PopularThema.vue'
 
 export default {
   name: 'App',
   components: {
     TodayRecommended,
     PersonalRecommended,
+    RecentThema,
+    PopularThema,
   }
 }
 </script>
