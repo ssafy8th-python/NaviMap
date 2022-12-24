@@ -1,8 +1,6 @@
 <template>
 	<div>
-		<h3>추억로그 남기기</h3>
-		<div class="memory-log-emoticon" 			
-		>
+		<div class="memory-log-emoticon">
 			<div 
 				class="emoticon-item-container"
 				v-for="(emoticon) in emoticonList"
@@ -15,7 +13,7 @@
 				</div>
 			</div>
 		</div>
-		<form class="memory-log-form" @submit.prevent="getReviewContent" v-if="isOpen">
+		<form class="memory-log-form" @submit.prevent="getReviewContent">
 				<textarea class="memory-log-input" type="text" maxlength="100" v-model="reviewContent" @keyup.enter="getReviewContent" autofocus ></textarea>
 				<input type="submit" value="저장" class="memory-log-submit-btn" >
 		</form>
@@ -28,7 +26,6 @@ export default {
 	data() {
 		return {
 			reviewContent : '', 
-			isOpen: false,
 			selectedEmoticon:'',
 			emoticonList : [
 				{
@@ -89,17 +86,12 @@ export default {
 
 			const payload = { newInput, newEmoticon}
 
-			console.log(this.selectedEmoticon)
-
 			this.$emit('getReviewContent', payload)
 		
 			this.emoticonList = newImoticonList
 			this.reviewContent = ''
 			this.selectedEmoticon = ''
-			this.isOpen = false
-				
-
-		
+			alert('메모리 로그가 저장되었습니다!')
 		},
 		selectEmoticon(emoticon){
 			this.isOpen = true
@@ -169,7 +161,7 @@ export default {
  .memory-log-input{
 	width:90%;
 	resize: none;
-	height: 4.5em;
+	height: 6.5em;
 	padding: 10px;
 	overflow:auto;
 	border: none;
@@ -192,11 +184,13 @@ export default {
 	background-color: white;
 	cursor: pointer;
 	border-radius:10px;
+	font-weight: bold;
  }
 
  .memory-log-submit-btn:hover{
 	background-color: #FFECEC;
-	color:#FFC7B2;
+	color:#FFA0A0;
+	font-weight: bold;
 
  }
 </style>

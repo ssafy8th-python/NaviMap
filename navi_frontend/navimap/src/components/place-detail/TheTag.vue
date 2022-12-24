@@ -11,11 +11,6 @@
 				{{tag}}
 			</span>
 		</div>
-		<!-- <div class="tag-item-box">
-			<span>
-				술집
-			</span>
-		</div> -->
 	</div>
 </template>
 

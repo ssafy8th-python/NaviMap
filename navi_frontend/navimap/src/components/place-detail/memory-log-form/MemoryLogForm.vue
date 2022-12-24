@@ -3,6 +3,7 @@
 		<TheMemories
 		:memories="memories"
 		/>
+		<h3>추억로그 남기기</h3>
 		<MemoryInput
 		@getReviewContent='getContentF'
 		/>
@@ -27,7 +28,6 @@ export default {
 	methods:{
 		getContentF(newInput){
 			this.memories.push(newInput)
-			console.log('get', this.memories)
 		}
 	}
 }
