@@ -139,3 +139,9 @@ STATIC_URL = '/static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'accounts.User'
+
+KAKAO_APP_CONFIG = {
+    'REST_API_KEY': env('KAKAO_REST_API_KEY'),
+    'REDIRECT_URI': env('KAKAO_REDIRECT_URI'),
+    'CLIENT_SECRET': env('KAKAO_CLIENT_SECRET'),
+}
