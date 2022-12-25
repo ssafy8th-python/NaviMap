@@ -5,5 +5,6 @@ class User(AbstractUser):
     nickname = models.CharField(max_length=100, null=True)
     profile_image = models.TextField(blank=True)
     thumbnail_image = models.TextField(blank=True)
-    email = models.EmailField(max_length=254)
+    email = models.EmailField(max_length=254, blank=True)
     followings = models.ManyToManyField('self', symmetrical=False, related_name='followers')
+    refresh_token = models.CharField(max_length=255, blank=True)
