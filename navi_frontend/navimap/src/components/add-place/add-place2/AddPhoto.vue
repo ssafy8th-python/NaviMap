@@ -1,6 +1,6 @@
 <template>
 	<div class="add-photo-page">
-		<h3>이 장소에 대한 사진을 등록해주세요</h3>
+		<div class="page2-header-para">이 장소에 대한 사진을 등록해주세요</div>
 		<div class="add-photo-container">
 			<div class="add-photo-box">
 				<div class="empty-photo-msg" v-if="!upLoadImage">

@@ -2,7 +2,7 @@
 	<div>
 		<div class="category-tag-box" v-for="(category, idx) in categry.categoryArr" :key="idx">
 			<div class="category-tag-item">
-				<h4># {{ category.phrase }}</h4>
+				<div class="head-para"># {{ category.phrase }}</div>
 				<div 
 					class="tag" 
 					:class="selectTag.indexOf(tag) !== -1 ? 'selected' : ''"
@@ -62,6 +62,10 @@ export default {
 .tag:hover,.selected{
 	background-color: #B9B9FF;
 	color:aliceblue
+}
+
+.head-para{
+	font-size:13px;
 }
 
 
