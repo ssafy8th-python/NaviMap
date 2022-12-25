@@ -14,13 +14,9 @@
       ></v-progress-linear>
     </template>
 
-
-
     <v-card-title style="text-align: center; padding-bottom: 0px;">오늘의 추천</v-card-title>
     <v-card-text style="text-align: right; padding-bottom: 0px;">22-12-23</v-card-text>
     <v-divider class="mx-4" style="margin-top: 2px; margin-bottom: 13px;"></v-divider>
-
-
 
     <v-card
     class="mx-auto"

@@ -17,10 +17,11 @@
 
 
     <v-card-title 
-      class="container" 
-      style="text-align: left; padding-bottom: 10px; margin-left:30px; margin-right: 30px;"  >
-      <div class="col-11">인기 있는 테마</div>
-      <v-btn class="col-1">전체 보기</v-btn>
+      style="padding-bottom: 0px; margin-left:30px; margin-right: 30px;">
+      <div class="col-8 col-sm-10 col-md-11">인기 있는 테마</div>
+      <div class="col-4 col-sm-2 col-md-1">
+        <v-btn >전체 보기</v-btn>
+      </div>
     </v-card-title>
     <v-divider class="mx-4" style="margin-top: 2px; margin-bottom: 13px;"></v-divider>
 

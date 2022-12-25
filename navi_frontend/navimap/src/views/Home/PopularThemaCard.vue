@@ -1,3 +1,4 @@
+<!-- 인기 있는 테마의 카드 -->
 <template>
   <div>
     <v-card
