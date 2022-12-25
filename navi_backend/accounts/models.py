@@ -7,4 +7,4 @@ class User(AbstractUser):
     thumbnail_image = models.TextField(blank=True)
     email = models.EmailField(max_length=254, blank=True)
     followings = models.ManyToManyField('self', symmetrical=False, related_name='followers')
-    refresh_token = models.CharField(max_length=255, blank=True)
+    refresh_token = models.TextField(blank=True)

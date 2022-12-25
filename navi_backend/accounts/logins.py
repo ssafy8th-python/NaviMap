@@ -44,31 +44,46 @@ class KakakoLogin:
 
 
     def jwt_create(kakako_profile):
+        '''
+        기존 사용자: simple-jwt로 바로 jwt 발급
+
+        새로운 사용자: 회원가입 후 simple-jwt로 jwt 발급
+        '''
         kakao_id = kakako_profile.get('id')
         kakao_account = kakako_profile.get('kakao_account')
         profile = kakao_account.get('profile')
+        User = get_user_model()
+        data = {
+            'nickname': profile.get('nickname'),
+            'profile_image': profile.get('profile_image_url'),
+            'thumbnail_image': profile.get('thumbnail_image_url'),
+            'email': kakao_account.get('email'),
+        }
 
-        user = get_user_model().objects.filter(pk=kakako_profile.get('id'))
+        try:
+            user = User.objects.get(pk=kakako_profile.get('id'))
 
         # 회원가입
-        if not user.exists():
-            data = {
-                'id': kakao_id,
-                'username': kakao_id,
-                'password': f'{kakao_id}password',
-                'nickname': profile.get('nickname'),
-                'profile_image': profile.get('profile_image_url'),
-                'profile_image': profile.get('thumbnail_image_url'),
-                'email': kakao_account.get('email'),
-            }
-            serializer = UserCreateSerializer(data=data)
+        except User.DoesNotExist:
+            serializer = UserCreateSerializer(data={'username': kakao_id,})
             if serializer.is_valid(raise_exception=True):
-                serializer.save()
+                user = serializer.save(id=kakao_id)
+                user.set_password(f'{kakao_id}password')
+                user.save()
+
+        # 회원정보 업데이트
+        user.nickname = profile.get('nickname')
+        user.profile_image = profile.get('profile_image_url')
+        user.thumbnail_image = profile.get('thumbnail_image_url')
+        user.email = kakao_account.get('email')
+        user.save()
 
         # jwt 발급
-        data = {'username': kakao_id, 'password': f'{kakao_id}password',}
-        serializer = TokenObtainPairSerializer(data=data)
+        jwt_data = {'username': kakao_id, 'password': f'{kakao_id}password',}
+        serializer = TokenObtainPairSerializer(data=jwt_data)
         if serializer.is_valid(raise_exception=True):
             jwt = serializer.validated_data
+            user.refresh_token = jwt.get('refresh')
+            user.save()
 
         return jwt
