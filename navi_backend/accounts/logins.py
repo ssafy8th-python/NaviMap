@@ -53,12 +53,6 @@ class KakakoLogin:
         kakao_account = kakako_profile.get('kakao_account')
         profile = kakao_account.get('profile')
         User = get_user_model()
-        data = {
-            'nickname': profile.get('nickname'),
-            'profile_image': profile.get('profile_image_url'),
-            'thumbnail_image': profile.get('thumbnail_image_url'),
-            'email': kakao_account.get('email'),
-        }
 
         try:
             user = User.objects.get(pk=kakako_profile.get('id'))
