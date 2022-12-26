@@ -191,34 +191,27 @@ def today_reco(weather_data):
         'autumn': [9, 10, 11, 12], # ['분위기 있는', '은은한', '차분한', '조용한'],
         'winter': [1, 3, 12, 13], # ['따뜻한', '포근한', '조용한', '안락한'],
     }
-
-    if this_month in [3, 4, 5]: # 봄
-        theme_season = Theme.objects.filter(
-                theme_tags__in=SEASON_TAGS.get('spring')
-            ).annotate(
-                like_count=Count('theme_likes')
-            ).order_by('-like_count')
-        
-    elif this_month in [6, 7, 8]: # 여름
-        theme_season = Theme.objects.filter(
-                theme_tags__in=SEASON_TAGS.get('summer')
-            ).annotate(
-                like_count=Count('theme_likes')
-            ).order_by('-like_count')
+    month = {
+        3: 'spring',
+        4: 'spring',
+        5: 'spring',
+        6: 'summer',
+        7: 'summer',
+        8: 'summer',
+        9: 'autumn',
+        10: 'autumn',
+        11: 'autumn',
+        12: 'winter',
+        1: 'winter',
+        2: 'winter',
+    }
+    season = month.get(this_month)
     
-    elif this_month in [9, 10, 11]: # 가을
-        theme_season = Theme.objects.filter(
-                theme_tags__in=SEASON_TAGS.get('autumn')
-            ).annotate(
-                like_count=Count('theme_likes')
-            ).order_by('-like_count')
-    
-    elif this_month in [12, 1, 2]: # 겨울
-        theme_season = Theme.objects.filter(
-                theme_tags__in=SEASON_TAGS.get('winter')
-            ).annotate(
-                like_count=Count('theme_likes')
-            ).order_by('-like_count')
+    theme_season = Theme.objects.filter(
+            theme_tags__in=SEASON_TAGS.get(season)
+        ).annotate(
+            like_count=Count('theme_likes')
+        ).order_by('-like_count')
 
     if theme_season:
         today_recos.append(theme_season[0])
@@ -227,25 +220,18 @@ def today_reco(weather_data):
     cloud, precipitation = weather_data.get('cloud'), weather_data.get('precipitation')
     
     weather_tags = []
-
-    if cloud == '맑음':
-        weather_tags.extend([6,]) # [신나는] 등 태그 삽입
-    elif cloud == '구름많음':
-        weather_tags.extend([9, 15,]) # [분위기 있는, 조용한] 등 태그 삽입
-    elif cloud == '흐림':
-        weather_tags.extend([3, 13,]) # [포근한, 안락한] 등 태그 삽입
-
-    if precipitation == '비':
-        weather_tags.extend([9, 10, ]) # [분위기 있는, 은은한] 등 태그 삽입
-    elif precipitation == '비눈':
-        weather_tags.extend([1, 9, ]) # [따뜻한, 분위기 있는] 등 태그 삽입
-    elif precipitation == '눈':
-        weather_tags.extend([1, 3, 13, ]) # [따뜻한, 포근한, 안락한 ] 등 태그 삽입
-    elif precipitation == '소나기':
-        weather_tags.extend([11, 12,]) # [차분한, 조용한] 등 태그 삽입
-    elif precipitation == '없음':
-        weather_tags.extend([6, 7,]) # [신나는, 붐비는] 등 태그 삽입
-    
+    weather_dict = {
+        '맑음': [6],
+        '구름많음': [9, 15],
+        '흐림': [3, 13],
+        '비': [9, 10],
+        '비눈': [1, 9],
+        '눈': [1, 3, 13],
+        '소나기': [11, 12],
+        '없음': [6, 7],
+    }
+    weather_tags.extend(weather_dict.get(cloud))
+    weather_tags.extend(weather_dict.get(precipitation))
     weather_tags = list(set(weather_tags))
     
     theme_weather = Theme.objects.filter(
