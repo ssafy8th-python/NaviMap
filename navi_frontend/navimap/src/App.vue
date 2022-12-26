@@ -6,18 +6,22 @@
       <TodayRecommended/>
       <PersonalRecommended/>
     </div>
+    <div>
+      <AddTheme/>
+    </div>
   </div>
 </template>
 
 <script>
 import TodayRecommended from '@/views/Home/TodayRecommended.vue'
 import PersonalRecommended from '@/views/Home/PersonalRecommended.vue'
-
+import AddTheme from '@/components/theme/AddTheme.vue'
 export default {
   name: 'App',
   components: {
     TodayRecommended,
     PersonalRecommended,
+    AddTheme,
   }
 }
 </script>

@@ -2,8 +2,6 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import PlaceDetailView from '../views/PlaceDetailView'
-
-import PlaceDetailView from '../views/PlaceDetailView'
 import AddPlaceView from '../views/AddPlaceView'
 
 
