@@ -27,7 +27,7 @@ export default {
 	},
 	methods:{
 		getContentF(newInput){
-			this.memories.push(newInput)
+			this.memories.unshift(newInput)
 		}
 	}
 }

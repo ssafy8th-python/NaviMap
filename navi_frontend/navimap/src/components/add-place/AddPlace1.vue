@@ -28,7 +28,7 @@
 		</header>
 		<body class="body">
 			<AddPlaceCategoryBody
-				:categry='selectedCategory'
+				:category='selectedCategory'
 				@selectTag ="getSelectTagF"
 			/>
 		</body>
