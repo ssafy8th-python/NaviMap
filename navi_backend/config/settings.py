@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     # apps
     'accounts',
     'themes',
+    'places',
 
     # third prty apps
     'rest_framework',
@@ -45,6 +46,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    # swagger
+    'drf_yasg',
 ]
 
 MIDDLEWARE = [
