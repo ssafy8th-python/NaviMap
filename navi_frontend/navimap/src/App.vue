@@ -4,6 +4,8 @@
     <!-- 검색창 -->
     <SearchBar/>
 
+    <router-view></router-view>
+    
     <!-- 추천카드들 -->
     <v-row>
       <TodayRecommended/>
@@ -11,7 +13,7 @@
     </v-row>
     <br>
     <v-divider></v-divider>
-    
+
     <!-- 최근 만든 테마 & 인기 있는 테마 카드 창 -->
     <RecentThema/>
     <PopularThema/>
