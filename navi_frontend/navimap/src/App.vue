@@ -1,11 +1,17 @@
 <template>
   <div id="app">
+
+    <!-- 검색창 -->
+    <SearchBar/>
+
+    <!-- 추천카드들 -->
     <v-row>
       <TodayRecommended/>
       <PersonalRecommended/>
     </v-row>
     <br>
     <v-divider></v-divider>
+    
     <!-- 최근 만든 테마 & 인기 있는 테마 카드 창 -->
     <RecentThema/>
     <PopularThema/>
@@ -48,6 +54,7 @@ import PersonalRecommended from '@/views/Home/PersonalRecommended.vue'
 import RecentThema from '@/views/Home/RecentThema.vue'
 import PopularThema from '@/views/Home/PopularThema.vue'
 import ThemaCreateModal from '@/views/Home/ThemaCreateModal.vue'
+import SearchBar from '@/views/Home/SearchBar.vue'
 
 export default {
   name: 'App',
@@ -56,7 +63,8 @@ export default {
     PersonalRecommended,
     RecentThema,
     PopularThema,
-    ThemaCreateModal
+    ThemaCreateModal,
+    SearchBar,
   },
   data () {
   },
