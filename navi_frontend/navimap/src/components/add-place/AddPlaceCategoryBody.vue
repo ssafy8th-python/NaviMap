@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<div class="category-tag-box" v-for="(category, idx) in categry.categoryArr" :key="idx">
+		<div class="category-tag-box" v-for="(category, idx) in category.categoryArr" :key="idx">
 			<div class="category-tag-item">
 				<div class="head-para"># {{ category.phrase }}</div>
 				<div 
@@ -21,7 +21,7 @@
 export default {
 	name: 'AddPlaceCategoryBody',
 	props:{
-		categry:Object
+		category:Object
 	},
 	data (){
 		return {
@@ -43,7 +43,13 @@ export default {
 			
 			this.$emit('selectTag', this.selectTag)
 		}
+	},
+	watch:{
+        "category.categoryArr": function(){
+            this.selectTag = []
+        }
 	}
+
 }
 </script>
 
