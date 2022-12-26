@@ -102,3 +102,11 @@ export default {
   display: none;
 }
 </style>
+
+<style>
+  .head-para{
+    font-size:16px;
+    margin:8px 5px;
+    font-weight: bold;
+  }
+</style>

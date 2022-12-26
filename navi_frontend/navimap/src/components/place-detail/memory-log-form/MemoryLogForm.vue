@@ -3,7 +3,7 @@
 		<TheMemories
 		:memories="memories"
 		/>
-		<h3>추억로그 남기기</h3>
+		<div class="head-para">추억로그 남기기</div>
 		<MemoryInput
 		@getReviewContent='getContentF'
 		/>

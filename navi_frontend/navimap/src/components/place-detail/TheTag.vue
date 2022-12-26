@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<h3>태그</h3>
+		<div class="head-para">태그</div>
 		<div class="empty" v-if="!tagArray.length">
 			<span>
 				태그를 추가해 주세요!

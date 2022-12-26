@@ -1,59 +1,28 @@
 <template>
 	<div>
-		<div class="memory-log-emoticon">
-			<div 
-				class="emoticon-item-container"
-				v-for="(emoticon) in emoticonList"
-				:key="emoticon.idx"	
-				@click="selectEmoticon(emoticon)"
-				:class="{ 'selected' : emoticon.selected}"
-			>
-				<div class="emoticon-item-box">
-					<span v-html="emoticon.emoticon"></span>
-				</div>
-			</div>
-		</div>
+		<MemoryLogEmoticon
+		@changeEmoticonList="changeEmoticonList"
+		/>
 		<form class="memory-log-form" @submit.prevent="getReviewContent">
 				<textarea class="memory-log-input" type="text" maxlength="100" v-model="reviewContent" @keyup.enter="getReviewContent" autofocus ></textarea>
-				<input type="submit" value="저장" class="memory-log-submit-btn" >
+				<input type="submit" value="저장" class="memory-log-submit-btn">
 		</form>
 	</div>
 </template>
 
 <script>
+import MemoryLogEmoticon from '../memory-log-form/MemoryLogEmoticon.vue'
+
 export default {
 	name:'MemoryInput',
+	components:{
+		MemoryLogEmoticon
+	},
 	data() {
 		return {
 			reviewContent : '', 
 			selectedEmoticon:'',
-			emoticonList : [
-				{
-					idx: 0,
-					emoticon:'&#128555;',
-					selected: false,
-				},
-				{
-					idx: 1,
-					emoticon:'&#128528;',
-					selected: false,
-				},
-				{
-					idx: 2,
-					emoticon:'&#128578;',
-					selected: false,
-				},
-				{
-					idx: 3,
-					emoticon:'&#128523;',
-					selected: false,
-				},
-				{
-					idx: 4,
-					emoticon:'&#128522;',
-					selected: false,
-				},
-			],
+			emoticonList:''
 		}
 	},
 	methods:{
@@ -75,7 +44,6 @@ export default {
 
 			const newEmoticon = findEmoticon[0].emoticon
 
-			this.selectedEmoticon = newEmoticon
 			const newImoticonList = this.emoticonList.map((emo) => {
 				{
 					emo.selected = false
@@ -90,67 +58,15 @@ export default {
 		
 			this.emoticonList = newImoticonList
 			this.reviewContent = ''
-			this.selectedEmoticon = ''
-			alert('메모리 로그가 저장되었습니다!')
 		},
-		selectEmoticon(emoticon){
-			this.isOpen = true
-
-			const newImoticonList = this.emoticonList.map((emo) => {
-				if (emo === emoticon){
-					emo.selected = !emo.selected
-				} else{
-					emo.selected = false
-				}
-
-				return emo
-			})
-
-			this.newImoticonList = newImoticonList
-
+		changeEmoticonList(emoList){
+			this.emoticonList = emoList
 		}
 	}
 }
 </script>
 
 <style scoped>
- .memory-log-emoticon{
-	width:100%;
-	height: 5.5em;
-	margin-bottom:10px;
-	display:flex;
-	justify-content: space-around;
-	align-items: center;
-	border-radius:10px;
-
- }
-
- .emoticon-item-container{
-	background-color:white;
-	width:15%;
-	min-width:40px;
-	height:75%;	
-	border-radius:10px;
-	cursor: pointer;
-	box-shadow: 2px 2px 8px rgb(0 0 0 / 30%);
- }
-
- .emoticon-item-box{
-	width:100%;
-	height:100%;
-	display: flex;
-	justify-content: center;
-	align-items: center;
- }
-
- .emoticon-item-box > span{
-	font-size:30px;
-	text-align: center;
- }
-
- .selected{
-	background-color: skyblue;
- }
  .memory-log-form{
 	width:100%;
 	background-color: white;

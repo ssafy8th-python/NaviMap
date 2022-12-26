@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<h3>지도</h3>
+		<div class="head-para">지도</div>
 		<div>
 			<div class="map-item">
 
@@ -18,9 +18,12 @@ export default {
 <style scoped>
 .map-item{
 	height:160px;
+	width: auto;
 	border-radius: 10px;
 	background-image: url('@/assets/map-example.jpg');
 	cursor: pointer;
+	background-size:cover;
+	background-repeat: no-repeat;
 }
 
 </style>

@@ -1,7 +1,7 @@
 <template>
 	<div class="add-place-page">
 		<header class="header">
-			<h3> 이 장소에 대한 태그를 선택해주세요 </h3>
+			<div class="page2-header-para"> 이 장소에 대한 태그를 선택해주세요 </div>
 			<div class="category-box">
 				<div 
 					class="category-item" 
@@ -165,6 +165,8 @@ export default {
 .body{
 	height: 80%;
 	overflow: auto;
+	background-color:#f8f9fa;
+	font-size:13px;
 }
 .footer{
 	text-align: center;	
@@ -215,4 +217,14 @@ export default {
   display: none;
 }
 
+
+</style>
+
+<style>
+.page2-header-para{
+	font-size:17px;
+	font-weight: bold;
+	margin-bottom:10px;
+	text-align: center;
+}
 </style>
