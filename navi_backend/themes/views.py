@@ -44,12 +44,14 @@ def mainpage(request):
     popular_recos = Theme.objects.annotate(like_count=Count('theme_likes')).order_by('-like_count')[:6]
     
 
-    # 오늘의 추천 3개 (날씨, 계절, 미세먼지 등 알고리즘 적용)
+    # 오늘의 추천 3개 (날씨, 계절 등 알고리즘 적용)
     weather_data = weather(request._request, 37.532600, 127.024612).data
     today_recos = today_reco(weather_data)
 
     # 개인별 추천 3개 (좋아요한 테마와 비슷한 테마, 좋아요한 유저의 테마, 최근 검색한 테마와 비슷한 테마 등)
-    # personal_recos = []
+    user = request.user
+    test(user)
+    personal_recos = personal_reco(user)
 
     latest_serializer = MainPageSerializer(latest_recos, many=True)
     popular_serializer = MainPageSerializer(popular_recos, many=True)
@@ -245,6 +247,13 @@ def today_reco(weather_data):
         today_recos.append(theme_weather[0])
     
     return today_recos
+
+
+def personal_reco(user):
+    personal_recos = []
+
+    
+    pass
 
 
 def test(target):
