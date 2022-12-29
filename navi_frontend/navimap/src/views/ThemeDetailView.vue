@@ -1,12 +1,13 @@
 <template>
     <div>
         <h3>ThemeDetailView</h3>
+        
         <KakaoMap class="kmap" :options="mapOption"/>
     </div>
 </template>
 
 <script>
-import KakaoMap from '@/components/map/KakaoMap'
+import KakaoMap from '@/components/theme/map/KakaoMap'
 
 export default {
     name:'ThemeDetailView',
@@ -31,6 +32,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped >
+
 
 </style>
