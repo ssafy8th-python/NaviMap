@@ -56,6 +56,7 @@ INSTALLED_APPS = [
 
     # swagger
     'drf_yasg',
+    
 ]
 
 REST_FRAMEWORK = {
@@ -180,3 +181,15 @@ SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(days=5),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=6),
 }
+
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+STATICFILES_DIRS = [
+    BASE_DIR / 'static',
+]
+
+STATIC_URL = '/static/'
+
+MEDIA_ROOT = BASE_DIR / 'media'
+
+MEDIA_URL = '/media/'
