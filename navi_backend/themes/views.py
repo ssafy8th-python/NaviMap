@@ -39,12 +39,13 @@ def create(request):
     
 
 @api_view(['GET'])
-def mainpage(request, weather_data):
+def mainpage(request):
     latest_recos = Theme.objects.order_by('-created')[:6]
     popular_recos = Theme.objects.annotate(like_count=Count('theme_likes')).order_by('-like_count')[:6]
     
 
     # 오늘의 추천 3개 (날씨, 계절, 미세먼지 등 알고리즘 적용)
+    weather_data = weather(request._request, 37.532600, 127.024612).data
     today_recos = today_reco(weather_data)
 
     # 개인별 추천 3개 (좋아요한 테마와 비슷한 테마, 좋아요한 유저의 테마, 최근 검색한 테마와 비슷한 테마 등)
@@ -206,7 +207,7 @@ def today_reco(weather_data):
         2: 'winter',
     }
     season = month.get(this_month)
-    
+
     theme_season = Theme.objects.filter(
             theme_tags__in=SEASON_TAGS.get(season)
         ).annotate(
@@ -215,7 +216,7 @@ def today_reco(weather_data):
 
     if theme_season:
         today_recos.append(theme_season[0])
-    
+
     # 날씨별 추천
     cloud, precipitation = weather_data.get('cloud'), weather_data.get('precipitation')
     
@@ -233,7 +234,7 @@ def today_reco(weather_data):
     weather_tags.extend(weather_dict.get(cloud))
     weather_tags.extend(weather_dict.get(precipitation))
     weather_tags = list(set(weather_tags))
-    
+
     theme_weather = Theme.objects.filter(
             theme_tags__in=weather_tags
         ).annotate(
