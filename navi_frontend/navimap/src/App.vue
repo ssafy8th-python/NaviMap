@@ -1,6 +1,7 @@
 <template>
   <div id="app">
 
+    <LoadingPage/>
     <router-view/>
     <div>
       <TodayRecommended/>
@@ -12,12 +13,14 @@
 <script>
 import TodayRecommended from '@/views/Home/TodayRecommended.vue'
 import PersonalRecommended from '@/views/Home/PersonalRecommended.vue'
+import LoadingPage from '@/components/loading/LoadingPage'
 
 export default {
   name: 'App',
   components: {
     TodayRecommended,
     PersonalRecommended,
+    LoadingPage
   }
 }
 </script>
