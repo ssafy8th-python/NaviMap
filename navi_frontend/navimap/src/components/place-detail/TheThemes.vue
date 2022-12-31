@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<h3>테마</h3>
+		<div class="head-para">테마</div>
 		<div class="theme-item" v-for="(theme, idx) in themeArray" :key="idx">
 			<span>
 				{{theme}}

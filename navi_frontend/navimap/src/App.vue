@@ -1,27 +1,75 @@
 <template>
   <div id="app">
 
-    <LoadingPage/>
-    <router-view/>
-    <div>
+    <!-- 검색창 -->
+    <SearchBar/>
+
+    <router-view></router-view>
+    
+    <!-- 추천카드들 -->
+    <v-row>
       <TodayRecommended/>
       <PersonalRecommended/>
+    </v-row>
+    <br>
+    <v-divider></v-divider>
+
+    <!-- 최근 만든 테마 & 인기 있는 테마 카드 창 -->
+    <RecentThema/>
+    <PopularThema/>
+    
+    <!-- 전체 테마 보기 버튼 -->
+    <v-btn 
+      style="margin:auto; width: 96.5%; display: block;"
+      >
+      전체 테마 보기
+    </v-btn>
+    <br>
+    
+    <!-- 테마 추가 버튼 -->
+    <div>
+      <v-btn
+        id="show-btn" @click="$bvModal.show('bv-modal-example')"
+        v-b-modal.modal-center
+        class="mx-2"
+        fab
+        dark
+        style="position:fixed; left:92%; right:0px; bottom:5%;"
+      >
+        <v-icon>
+            mdi-plus
+        </v-icon>
+      </v-btn>
+
+      <!-- 테마 작성 모달 -->
+      <ThemaCreateModal/>
+      
+      <!-- 맨 위로 버튼 -->
+      
+      
     </div>
   </div>
 </template>
-
 <script>
 import TodayRecommended from '@/views/Home/TodayRecommended.vue'
 import PersonalRecommended from '@/views/Home/PersonalRecommended.vue'
-import LoadingPage from '@/components/loading/LoadingPage'
+import RecentThema from '@/views/Home/RecentThema.vue'
+import PopularThema from '@/views/Home/PopularThema.vue'
+import ThemaCreateModal from '@/views/Home/ThemaCreateModal.vue'
+import SearchBar from '@/views/Home/SearchBar.vue'
 
 export default {
   name: 'App',
   components: {
     TodayRecommended,
     PersonalRecommended,
-    LoadingPage
-  }
+    RecentThema,
+    PopularThema,
+    ThemaCreateModal,
+    SearchBar,
+  },
+  data () {
+  },
 }
 </script>
 

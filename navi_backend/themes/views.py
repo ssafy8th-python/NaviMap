@@ -1,14 +1,19 @@
-from django.db.models import Count
-from django.shortcuts import get_object_or_404
+#rest framework 관련
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from .weather import getWeather
 from rest_framework import status
+
+# django 관련
+from django.shortcuts import get_object_or_404
+from django.db.models import Count
 from .serializers import ThemeCreateSerializer, ThemeListSerializer, ThemeDetailSerializer, MainPageSerializer
 from .models import Theme
 from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 
+# 기타 api 관련
+from .weather import getWeather
+import datetime
 
 theme_id_response = openapi.Response('int : theme_id')
 
@@ -34,26 +39,26 @@ def create(request):
     
 
 @api_view(['GET'])
-def mainpage(request):
+def mainpage(request, weather_data):
     latest_recos = Theme.objects.order_by('-created')[:6]
     popular_recos = Theme.objects.annotate(like_count=Count('theme_likes')).order_by('-like_count')[:6]
     
 
     # 오늘의 추천 3개 (날씨, 계절, 미세먼지 등 알고리즘 적용)
-    # today_recos = []
+    today_recos = today_reco(weather_data)
 
     # 개인별 추천 3개 (좋아요한 테마와 비슷한 테마, 좋아요한 유저의 테마, 최근 검색한 테마와 비슷한 테마 등)
     # personal_recos = []
 
     latest_serializer = MainPageSerializer(latest_recos, many=True)
     popular_serializer = MainPageSerializer(popular_recos, many=True)
-    # today_serializer = MainPageSerializer(today_recos, many=True)
+    today_serializer = MainPageSerializer(today_recos, many=True)
     # personal_serializer = MainPageSerializer(personal_recos, many=True)
 
     data = {
         'latest_recos': latest_serializer.data,
         'popular_recos': popular_serializer.data,
-        # 'today_recos': today_serializer.data,
+        'today_recos': today_serializer.data,
         # 'personal_recos': personal_serializer.data,
     }
     
@@ -162,12 +167,87 @@ def theme_list(request, list_name):
 def weather(request, lat, lon):
 
     # cloud: 구름의 양, precipitation: 강수형태,  lat: 위도, lon: 경도
+    # (tuple | tuple[Unbound | Literal['맑음', '구름많음', '흐림'], Unbound | Literal['비', '비눈', '눈', '소나기', '없음']])
     cloud, precipitation = getWeather(lat, lon)
 
+    # print(cloud, precipitation)
     data = {
-        'cloud' : cloud,
-        'precipitation' : precipitation,
+        'cloud': cloud,
+        'precipitation': precipitation,
     }
-    
+
     return Response(data)
 
+def today_reco(weather_data):
+    today_recos = []
+
+    # 계절별 추천
+    this_month = datetime.date.today().month
+
+    # 임시태그 (tags의 pk가 담겨있어야함)
+    SEASON_TAGS = {
+        'spring': [1, 2, 3, 4], # ['따뜻한', '화려한', '포근한', '설레는'],
+        'summer': [5, 6, 7, 8], # ['시원한', '신나는', '붐비는', '화끈한'],
+        'autumn': [9, 10, 11, 12], # ['분위기 있는', '은은한', '차분한', '조용한'],
+        'winter': [1, 3, 12, 13], # ['따뜻한', '포근한', '조용한', '안락한'],
+    }
+    month = {
+        3: 'spring',
+        4: 'spring',
+        5: 'spring',
+        6: 'summer',
+        7: 'summer',
+        8: 'summer',
+        9: 'autumn',
+        10: 'autumn',
+        11: 'autumn',
+        12: 'winter',
+        1: 'winter',
+        2: 'winter',
+    }
+    season = month.get(this_month)
+    
+    theme_season = Theme.objects.filter(
+            theme_tags__in=SEASON_TAGS.get(season)
+        ).annotate(
+            like_count=Count('theme_likes')
+        ).order_by('-like_count')
+
+    if theme_season:
+        today_recos.append(theme_season[0])
+    
+    # 날씨별 추천
+    cloud, precipitation = weather_data.get('cloud'), weather_data.get('precipitation')
+    
+    weather_tags = []
+    weather_dict = {
+        '맑음': [6],
+        '구름많음': [9, 15],
+        '흐림': [3, 13],
+        '비': [9, 10],
+        '비눈': [1, 9],
+        '눈': [1, 3, 13],
+        '소나기': [11, 12],
+        '없음': [6, 7],
+    }
+    weather_tags.extend(weather_dict.get(cloud))
+    weather_tags.extend(weather_dict.get(precipitation))
+    weather_tags = list(set(weather_tags))
+    
+    theme_weather = Theme.objects.filter(
+            theme_tags__in=weather_tags
+        ).annotate(
+            like_count=Count('theme_likes')
+        ).order_by('-like_count')
+
+    if theme_weather:
+        today_recos.append(theme_weather[0])
+    
+    return today_recos
+
+
+def test(target):
+    print('@@@@@@@@@@@@@@@@@@@@@@@@@@')
+    print(target)
+    print(type(target))
+    print('@@@@@@@@@@@@@@@@@@@@@@@@@@')
