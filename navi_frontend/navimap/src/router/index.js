@@ -1,8 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import HomeView from '../views/HomeView.vue'
 import ThemeDetailView from '@/views/ThemeDetailView.vue'
-
 import PlaceDetailView from '../views/PlaceDetailView'
 import AddPlaceView from '../views/AddPlaceView'
 
@@ -10,11 +8,6 @@ Vue.use(VueRouter)
 
 const routes = [
   
-  {
-    path: '/',
-    name: 'home',
-    component: HomeView
-  },
   {
     path:"/themedetail",
     name: 'ThemeDetailView',
