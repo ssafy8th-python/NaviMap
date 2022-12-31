@@ -3,6 +3,9 @@ import VueRouter from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import ThemeDetailView from '@/views/ThemeDetailView.vue'
 
+import PlaceDetailView from '../views/PlaceDetailView'
+import AddPlaceView from '../views/AddPlaceView'
+
 Vue.use(VueRouter)
 
 const routes = [
@@ -17,7 +20,16 @@ const routes = [
     name: 'ThemeDetailView',
     component: ThemeDetailView
   },
-
+  {
+    path: '/detail',
+    name: 'detail',
+    component: PlaceDetailView
+  },
+  {
+    path: '/add-place',
+    name: 'add-place',
+    component: AddPlaceView
+  }
 ]
 
 const router = new VueRouter({

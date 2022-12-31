@@ -1,0 +1,457 @@
+[
+{
+    "model": "themes.tag",
+    "pk": 1,
+    "fields": {
+        "tag_name": "양식"
+    }
+},
+{
+    "model": "themes.tag",
+    "pk": 2,
+    "fields": {
+        "tag_name": "중식"
+    }
+},
+{
+    "model": "themes.tag",
+    "pk": 3,
+    "fields": {
+        "tag_name": "한식"
+    }
+},
+{
+    "model": "themes.tag",
+    "pk": 4,
+    "fields": {
+        "tag_name": "일식"
+    }
+},
+{
+    "model": "themes.tag",
+    "pk": 5,
+    "fields": {
+        "tag_name": "세계음식"
+    }
+},
+{
+    "model": "themes.tag",
+    "pk": 6,
+    "fields": {
+        "tag_name": "생선"
+    }
+},
+{
+    "model": "themes.tag",
+    "pk": 7,
+    "fields": {
+        "tag_name": "분식"
+    }
+},
+{
+    "model": "themes.tag",
+    "pk": 8,
+    "fields": {
+        "tag_name": "고기"
+    }
+},
+{
+    "model": "themes.tag",
+    "pk": 9,
+    "fields": {
+        "tag_name": "초밥"
+    }
+},
+{
+    "model": "themes.tag",
+    "pk": 10,
+    "fields": {
+        "tag_name": "튀김"
+    }
+},
+{
+    "model": "themes.tag",
+    "pk": 11,
+    "fields": {
+        "tag_name": "디저트"
+    }
+},
+{
+    "model": "themes.tag",
+    "pk": 12,
+    "fields": {
+        "tag_name": "빵"
+    }
+},
+{
+    "model": "themes.tag",
+    "pk": 13,
+    "fields": {
+        "tag_name": "면"
+    }
+},
+{
+    "model": "themes.tag",
+    "pk": 14,
+    "fields": {
+        "tag_name": "채식"
+    }
+},
+{
+    "model": "themes.tag",
+    "pk": 15,
+    "fields": {
+        "tag_name": "순한맛"
+    }
+},
+{
+    "model": "themes.tag",
+    "pk": 16,
+    "fields": {
+        "tag_name": "보통맛"
+    }
+},
+{
+    "model": "themes.tag",
+    "pk": 17,
+    "fields": {
+        "tag_name": "매운맛"
+    }
+},
+{
+    "model": "themes.tag",
+    "pk": 18,
+    "fields": {
+        "tag_name": "혼자서"
+    }
+},
+{
+    "model": "themes.tag",
+    "pk": 19,
+    "fields": {
+        "tag_name": "연인과"
+    }
+},
+{
+    "model": "themes.tag",
+    "pk": 20,
+    "fields": {
+        "tag_name": "동료와"
+    }
+},
+{
+    "model": "themes.tag",
+    "pk": 21,
+    "fields": {
+        "tag_name": "친구와"
+    }
+},
+{
+    "model": "themes.tag",
+    "pk": 22,
+    "fields": {
+        "tag_name": "아이와"
+    }
+},
+{
+    "model": "themes.tag",
+    "pk": 23,
+    "fields": {
+        "tag_name": "부모님과"
+    }
+},
+{
+    "model": "themes.tag",
+    "pk": 24,
+    "fields": {
+        "tag_name": "친절한"
+    }
+},
+{
+    "model": "themes.tag",
+    "pk": 25,
+    "fields": {
+        "tag_name": "가성비좋은"
+    }
+},
+{
+    "model": "themes.tag",
+    "pk": 26,
+    "fields": {
+        "tag_name": "비싼"
+    }
+},
+{
+    "model": "themes.tag",
+    "pk": 27,
+    "fields": {
+        "tag_name": "뚜벅이"
+    }
+},
+{
+    "model": "themes.tag",
+    "pk": 28,
+    "fields": {
+        "tag_name": "차끌고"
+    }
+},
+{
+    "model": "themes.tag",
+    "pk": 29,
+    "fields": {
+        "tag_name": "조용한"
+    }
+},
+{
+    "model": "themes.tag",
+    "pk": 30,
+    "fields": {
+        "tag_name": "데이트하기 좋은"
+    }
+},
+{
+    "model": "themes.tag",
+    "pk": 31,
+    "fields": {
+        "tag_name": "예쁜 인테리어"
+    }
+},
+{
+    "model": "themes.tag",
+    "pk": 32,
+    "fields": {
+        "tag_name": "아름다운 경치"
+    }
+},
+{
+    "model": "themes.tag",
+    "pk": 33,
+    "fields": {
+        "tag_name": "양이 많은"
+    }
+},
+{
+    "model": "themes.tag",
+    "pk": 34,
+    "fields": {
+        "tag_name": "양이 적은"
+    }
+},
+{
+    "model": "themes.tag",
+    "pk": 35,
+    "fields": {
+        "tag_name": "커피"
+    }
+},
+{
+    "model": "themes.tag",
+    "pk": 36,
+    "fields": {
+        "tag_name": "차"
+    }
+},
+{
+    "model": "themes.tag",
+    "pk": 37,
+    "fields": {
+        "tag_name": "맥주"
+    }
+},
+{
+    "model": "themes.tag",
+    "pk": 38,
+    "fields": {
+        "tag_name": "위스키"
+    }
+},
+{
+    "model": "themes.tag",
+    "pk": 39,
+    "fields": {
+        "tag_name": "하이볼"
+    }
+},
+{
+    "model": "themes.tag",
+    "pk": 40,
+    "fields": {
+        "tag_name": "칵테일"
+    }
+},
+{
+    "model": "themes.tag",
+    "pk": 41,
+    "fields": {
+        "tag_name": "소주"
+    }
+},
+{
+    "model": "themes.tag",
+    "pk": 42,
+    "fields": {
+        "tag_name": "에이드"
+    }
+},
+{
+    "model": "themes.tag",
+    "pk": 43,
+    "fields": {
+        "tag_name": "스무디"
+    }
+},
+{
+    "model": "themes.tag",
+    "pk": 44,
+    "fields": {
+        "tag_name": "프라페"
+    }
+},
+{
+    "model": "themes.tag",
+    "pk": 45,
+    "fields": {
+        "tag_name": "공부하기"
+    }
+},
+{
+    "model": "themes.tag",
+    "pk": 46,
+    "fields": {
+        "tag_name": "책읽기"
+    }
+},
+{
+    "model": "themes.tag",
+    "pk": 47,
+    "fields": {
+        "tag_name": "일하기"
+    }
+},
+{
+    "model": "themes.tag",
+    "pk": 48,
+    "fields": {
+        "tag_name": "음악듣기"
+    }
+},
+{
+    "model": "themes.tag",
+    "pk": 49,
+    "fields": {
+        "tag_name": "산책하기"
+    }
+},
+{
+    "model": "themes.tag",
+    "pk": 50,
+    "fields": {
+        "tag_name": "운동하기"
+    }
+},
+{
+    "model": "themes.tag",
+    "pk": 51,
+    "fields": {
+        "tag_name": "사진찍기"
+    }
+},
+{
+    "model": "themes.tag",
+    "pk": 52,
+    "fields": {
+        "tag_name": "대화하기"
+    }
+},
+{
+    "model": "themes.tag",
+    "pk": 53,
+    "fields": {
+        "tag_name": "1인"
+    }
+},
+{
+    "model": "themes.tag",
+    "pk": 54,
+    "fields": {
+        "tag_name": "다수"
+    }
+},
+{
+    "model": "themes.tag",
+    "pk": 55,
+    "fields": {
+        "tag_name": "햇살좋은"
+    }
+},
+{
+    "model": "themes.tag",
+    "pk": 56,
+    "fields": {
+        "tag_name": "붐비는"
+    }
+},
+{
+    "model": "themes.tag",
+    "pk": 57,
+    "fields": {
+        "tag_name": "깔끔한"
+    }
+},
+{
+    "model": "themes.tag",
+    "pk": 58,
+    "fields": {
+        "tag_name": "빈티지"
+    }
+},
+{
+    "model": "themes.tag",
+    "pk": 59,
+    "fields": {
+        "tag_name": "인스타감성"
+    }
+},
+{
+    "model": "themes.tag",
+    "pk": 60,
+    "fields": {
+        "tag_name": "건강한"
+    }
+},
+{
+    "model": "themes.tag",
+    "pk": 61,
+    "fields": {
+        "tag_name": "주차편한"
+    }
+},
+{
+    "model": "themes.tag",
+    "pk": 62,
+    "fields": {
+        "tag_name": "넓은"
+    }
+},
+{
+    "model": "themes.tag",
+    "pk": 63,
+    "fields": {
+        "tag_name": "맛있는"
+    }
+},
+{
+    "model": "themes.tag",
+    "pk": 64,
+    "fields": {
+        "tag_name": "밝은"
+    }
+},
+{
+    "model": "themes.tag",
+    "pk": 65,
+    "fields": {
+        "tag_name": "어두운"
+    }
+}
+]
