@@ -45,7 +45,6 @@
   export default {
     name : 'SearchBar',
     components : {
-
     },
   }
 </script>

@@ -1,11 +1,9 @@
 <template>
   <div>
     <b-modal id="modal-center" centered size="lg" hide-footer>
-
       <!-- 타이틀 -->
       <template #modal-title>
-        <h2 style="text-align:center; margin-bottom:30px;"> <b>테마 지도 만들기</b></h2>
-      </template>
+        <h2 style="text-align:center; margin-bottom:30px;"> <b>테마 지도 만들기</b></h2>      </template>
 
       <!-- 테마 이름 인풋창 -->
       <div class="d-block text-center">
@@ -21,8 +19,9 @@
             v-model="themename"
           ></v-textarea>
         </v-col>
-      </div>
-
+  
+              </div>
+ 
       <!-- 이모지 -->
       <p style="font-size:18px;margin-bottom:8px;"><b>이모지</b></p>  
       <div class="form-item" style="margin-bottom:8px;">
@@ -42,8 +41,7 @@
         </span>
       </div>
       <br>
-    
-    
+      
       <!-- 안내사항 -->
       <h4 style="text-align:left;">테마명 작성과 관련된 안내 사항</h4>
       <div style="padding:10px;">
@@ -76,8 +74,8 @@
           🧑‍🤝‍🧑 다수
           </v-btn>
         </div>
+       <!-- 특징 -->
 
-        <!-- 특징 -->
         <v-card-subtitle style="padding-bottom:0px;">
           <p class="text-h3 text--primary" >
             <b># 특징</b>
@@ -173,8 +171,8 @@
         </div>
         <br>
       </v-card>
-      <br>
 
+      <br>
       <!-- 미리보기 -->
       <p style="font-size:18px;"><b>미리보기</b></p>
       <div class="theme_preview">
@@ -199,7 +197,6 @@
         </div>
       </div>
       <br>
-
       <!-- 저장하기 버튼 -->
       <b-button class="mt-3" block style="display:block; margin:auto;">저장하기</b-button>
     </b-modal>
@@ -220,7 +217,6 @@ export default {
   },
 }
 </script>
-
 
 <style scoped>
 #modal_content{
@@ -371,7 +367,6 @@ input::placeholder {
 	color: white;
 	font-weight: bold;
 }
-
 .submit-category-tag:hover{
 	background-color: #FFC6C6;
 }
