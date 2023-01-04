@@ -31,19 +31,9 @@ def login(request):
 
     token = KakakoLogin.jwt_create(kakako_profile, access_token)
     data = {'message': 'set_token'}
-    response = Response(data, status=status.HTTP_200_OK).set_cookie(key='jwt', value='token', httponly=True, domain="127.0.0.1:8000")
-    print()
-    print()
-    print()
-    print()
-    print()
-    print(response)
-    print()
-    print()
-    print()
-    print()
-    print()
-    return response
+    res = Response(data, status=status.HTTP_200_OK)
+    res.set_cookie(key='jwt', value=token, httponly=True, domain="127.0.0.1:8000")
+    return res
 
 
 @api_view(['POST'])
