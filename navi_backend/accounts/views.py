@@ -29,5 +29,36 @@ def login(request):
     access_token = KakakoLogin.get_token(auth_code)
     kakako_profile = KakakoLogin.get_kakao_profile(access_token)
 
-    data = KakakoLogin.jwt_create(kakako_profile)
-    return Response(data)
+    token = KakakoLogin.jwt_create(kakako_profile, access_token)
+    data = {'message': 'set_token'}
+    response = Response(data, status=status.HTTP_200_OK).set_cookie(key='jwt', value='token', httponly=True, domain="127.0.0.1:8000")
+    print()
+    print()
+    print()
+    print()
+    print()
+    print(response)
+    print()
+    print()
+    print()
+    print()
+    print()
+    return response
+
+
+@api_view(['POST'])
+def logout(requset):
+    data = {'message': 'logout'}
+    return Response(data).delete_cookie('jwt')
+
+
+@api_view(['DELETE'])
+def kakaoDelete(request):
+    user = request.user
+    if user.is_authenticated:
+        KakakoLogin.unlink(user)
+        user.delete()
+        data = {
+            'delete_account': '회원탈퇴가 완료되었습니다.'
+        }
+    return Response(data, status=status.HTTP_204_NO_CONTENT).delete_cookie('jwt')
