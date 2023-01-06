@@ -1,5 +1,3 @@
-import requests
-
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
@@ -25,6 +23,7 @@ def kakaoGetcode(request):
     }
     return Response(data)
 
+cookie_lst = ['access', 'refresh']
 
 @api_view(['GET'])
 def login(request):
@@ -35,8 +34,9 @@ def login(request):
     token = KakakoLogin.jwt_create(kakako_profile, access_token)
     data = {'message': 'set_token'}
     res = Response(data, status=status.HTTP_200_OK)
-    res.set_cookie(key='access', value=token.get('access'), httponly=True)
-    res.set_cookie(key='refresh', value=token.get('refresh'), httponly=True)
+
+    for key in cookie_lst:
+        res.set_cookie(key=key, value=token.get(key), httponly=True)
     return res
 
 
@@ -44,8 +44,8 @@ def login(request):
 def logout(requset):
     data = {'message': 'logout'}
     res = Response(data)
-    res.delete_cookie('access')
-    res.delete_cookie('refresh')
+    for key in cookie_lst:
+        res.delete_cookie(key)
     return res
 
 
@@ -59,6 +59,6 @@ def kakaoDelete(request):
             'delete_account': '회원탈퇴가 완료되었습니다.'
         }
         res = Response(data, status=status.HTTP_204_NO_CONTENT)
-        res.delete_cookie('access')
-        res.delete_cookie('refresh')
+        for key in cookie_lst:
+            res.delete_cookie(key)
     return res
