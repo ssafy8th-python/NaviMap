@@ -1,11 +1,68 @@
 <template>
   <div id="app">
+
+    <!-- navbar -->
+    <!-- <nav class="navbar navbar-light bg-light">
+    <div class="container">
+      <a class="navbar-brand" href="#">
+      <img src="@/assets/Navimap_logo.png" style="width:150px; text-align:left;">      </a>
+    </div>
+    </nav> -->
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#"><img src="@/assets/Navimap_logo.png" style="width:150px; text-align:left;"></a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse justify-content-end" id="navbarNavDropdown">
+      <ul class="navbar-nav" >
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="#">🏠홈</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">🦋테마보기</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">🌼나의 테마</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">⚙️마이페이지</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">🔑로그인</a>
+        </li>
+        <!-- <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Dropdown link
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="#">Action</a></li>
+            <li><a class="dropdown-item" href="#">Another action</a></li>
+            <li><a class="dropdown-item" href="#">Something else here</a></li>
+          </ul>
+        </li> -->
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+    <!-- 타이틀 -->
+    <h1 style="text-align:center; font-size:100px;"> 나비지도 </h1>
+    <h4 style="text-align:center;"> 나만의 비밀 지도 </h4>
+    <!-- 검색창 -->
+    <SearchBar/>
+
+    <!-- <router-view></router-view> -->
+
+    <!-- 추천카드들 -->
     <v-row>
       <TodayRecommended/>
       <PersonalRecommended/>
     </v-row>
     <br>
     <v-divider></v-divider>
+
     <!-- 최근 만든 테마 & 인기 있는 테마 카드 창 -->
     <RecentThema/>
     <PopularThema/>
@@ -48,6 +105,7 @@ import PersonalRecommended from '@/views/Home/PersonalRecommended.vue'
 import RecentThema from '@/views/Home/RecentThema.vue'
 import PopularThema from '@/views/Home/PopularThema.vue'
 import ThemaCreateModal from '@/views/Home/ThemaCreateModal.vue'
+import SearchBar from '@/views/Home/SearchBar.vue'
 
 export default {
   name: 'App',
@@ -56,10 +114,12 @@ export default {
     PersonalRecommended,
     RecentThema,
     PopularThema,
-    ThemaCreateModal
+    ThemaCreateModal,
+    SearchBar,
   },
   data () {
   },
+  
 }
 </script>
 
