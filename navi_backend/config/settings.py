@@ -93,6 +93,8 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:8085",
 ]
 
+CORS_ALLOW_CREDENTIALS = True
+
 ROOT_URLCONF = 'config.urls'
 
 TEMPLATES = [
