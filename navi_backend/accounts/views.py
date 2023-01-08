@@ -25,9 +25,9 @@ def kakaoGetcode(request):
 
 cookie_lst = ['access', 'refresh']
 
-@api_view(['GET'])
+@api_view(['POST'])
 def login(request):
-    auth_code = request.GET.get('code')
+    auth_code = request.data.get('code')
     access_token = KakakoLogin.get_token(auth_code)
     kakako_profile = KakakoLogin.get_kakao_profile(access_token)
 
