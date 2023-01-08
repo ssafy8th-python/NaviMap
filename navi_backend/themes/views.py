@@ -8,7 +8,6 @@ from django.shortcuts import get_object_or_404
 from django.db.models import Count
 from .serializers import ThemeCreateSerializer, ThemeListSerializer, ThemeDetailSerializer, MainPageSerializer
 from .models import Theme, Tag
-from django.contrib.auth import get_user_model
 from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 
@@ -25,14 +24,20 @@ theme_id_response = openapi.Response('int : theme_id')
     request_body=ThemeCreateSerializer,
     responses={201: theme_id_response},
 )
+
+# 테마 생성 api
 @api_view(['POST'])
 def create(request):
 
     serializer = ThemeCreateSerializer(data=request.data)
 
     if serializer.is_valid(raise_exception=True):
-        theme = serializer.save()
-
+        theme = serializer.save(theme_creator=request.user)
+        tags = request.data.get('theme_tags')
+        for tag_name in tags:
+            tag = Tag.objects.get_or_create(tag_name=tag_name)
+            theme.theme_tags.add(tag)
+        
     data = {
         'theme_id': theme.id,
     }

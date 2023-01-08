@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     # third prty apps
     'rest_framework',
     'rest_framework_simplejwt',
+    'corsheaders',
 
     'django.contrib.admin',
     'django.contrib.auth',
@@ -56,6 +57,7 @@ INSTALLED_APPS = [
 
     # swagger
     'drf_yasg',
+    
 ]
 
 REST_FRAMEWORK = {
@@ -72,6 +74,7 @@ REST_FRAMEWORK = {
 }
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -79,6 +82,15 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+]
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:8080",
+    "http://localhost:8081",
+    "http://localhost:8082",
+    "http://localhost:8083",
+    "http://localhost:8084",
+    "http://localhost:8085",
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -180,3 +192,15 @@ SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(days=5),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=6),
 }
+
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+STATICFILES_DIRS = [
+    BASE_DIR / 'static',
+]
+
+STATIC_URL = '/static/'
+
+MEDIA_ROOT = BASE_DIR / 'media'
+
+MEDIA_URL = '/media/'
