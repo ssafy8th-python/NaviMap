@@ -29,7 +29,7 @@
           <a class="nav-link" href="#">⚙️마이페이지</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">🔑로그인</a>
+          <span class="nav-link" @click="kakaoLogin">🔑로그인</span>
         </li>
         <!-- <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -100,6 +100,7 @@
   </div>
 </template>
 <script>
+import axios from 'axios'
 import TodayRecommended from '@/views/Home/TodayRecommended.vue'
 import PersonalRecommended from '@/views/Home/PersonalRecommended.vue'
 import RecentThema from '@/views/Home/RecentThema.vue'
@@ -119,7 +120,18 @@ export default {
   },
   data () {
   },
-  
+  methods:{
+    kakaoLogin(){
+      axios({
+        method:'get',
+        url:"http://127.0.0.1:8000/api/v1/accounts/kakao/login/getcode/",
+      })
+        .then((res)=>{
+          window.location.href="http://127.0.0.1:8000/api/v1/accounts/kakao/login/getcode/"
+        })
+        .catch((err)=> {console.log(err)})
+    }
+  }
 }
 </script>
 
