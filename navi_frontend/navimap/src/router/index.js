@@ -4,12 +4,16 @@ import ThemeDetailView from '@/views/ThemeDetailView.vue'
 import PlaceDetailView from '../views/PlaceDetailView'
 import AddPlaceView from '../views/AddPlaceView'
 import LoginView from '../views/LoginView'
-
+import MainPage from '../views/MainPage'
 
 Vue.use(VueRouter)
 
 const routes = [
-  
+  {
+    path:"/",
+    name: 'MainPage',
+    component: MainPage
+  },
   {
     path:"/themedetail",
     name: 'ThemeDetailView',
