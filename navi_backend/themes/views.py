@@ -7,7 +7,8 @@ from rest_framework import status
 from django.shortcuts import get_object_or_404
 from django.db.models import Count
 from .serializers import ThemeCreateSerializer, ThemeListSerializer, ThemeDetailSerializer, MainPageSerializer
-from .models import Theme
+from .models import Theme, Tag
+from django.contrib.auth import get_user_model
 from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 
@@ -45,24 +46,31 @@ def mainpage(request):
     
 
     # 오늘의 추천 3개 (날씨, 계절 등 알고리즘 적용)
-    weather_data = weather(request._request, 37.532600, 127.024612).data
+    weather_data = weather(request._request, 37.532600, 127.024612).data # 서울 좌표임
     today_recos = today_reco(weather_data)
 
     # 개인별 추천 3개 (좋아요한 테마와 비슷한 테마, 좋아요한 유저의 테마, 최근 검색한 테마와 비슷한 테마 등)
     user = request.user
-    test(user)
-    personal_recos = personal_reco(user)
+    if request.user.is_anonymous:
+        personal_recos = when_empty_recos()
+    # else:
+    #     personal_recos = personal_reco(user)
+    # personal_recos = personal_reco(user) # 로그인이 될 때 다시 해봐야함
+
+    personal_recos = [] # 임시
+    if not personal_recos:
+        personal_recos = when_empty_recos()
 
     latest_serializer = MainPageSerializer(latest_recos, many=True)
     popular_serializer = MainPageSerializer(popular_recos, many=True)
     today_serializer = MainPageSerializer(today_recos, many=True)
-    # personal_serializer = MainPageSerializer(personal_recos, many=True)
+    personal_serializer = MainPageSerializer(personal_recos, many=True)
 
     data = {
         'latest_recos': latest_serializer.data,
         'popular_recos': popular_serializer.data,
         'today_recos': today_serializer.data,
-        # 'personal_recos': personal_serializer.data,
+        'personal_recos': personal_serializer.data,
     }
     
     return Response(data)
@@ -252,12 +260,36 @@ def today_reco(weather_data):
 def personal_reco(user):
     personal_recos = []
 
-    
-    pass
+    # 좋아요한 테마의 태그
+    like_themes_pks = user.user_themes_likes.theme_id
+    if like_themes_pks:
+        tags = {}
+        
+        for like_theme_pk in like_themes_pks:
+            theme_tags = Theme.objects.filter(themes_pk=like_theme_pk).theme_tags
 
+            for tag in theme_tags:
+                if tag in tags:
+                    tags[tag] += 1
+                else:
+                    tags[tag] = 1
+        
+        most_tag = sorted(tags.items(), key=lambda x:x[1])[-1][0]
+        themes = Tag.tag_themes.filter(tag_id=most_tag)
+        personal_recos = themes.annotate(
+                like_count=Count('theme_likes')
+            ).order_by('-like_count')[:3]
+    
+    return personal_recos
+
+
+def when_empty_recos():
+    themes = Theme.objects.annotate(like_count=Count('theme_likes')).order_by('-like_count')[:3]
+    return themes
 
 def test(target):
     print('@@@@@@@@@@@@@@@@@@@@@@@@@@')
     print(target)
     print(type(target))
     print('@@@@@@@@@@@@@@@@@@@@@@@@@@')
+
