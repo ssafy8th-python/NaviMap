@@ -11,20 +11,36 @@ export default {
         options: Object
     }, 
     mounted() {
-        let kakao = window.kakao
-        console.log(this.$refs.map)
+        if (!window.kakao || !window.kakao.maps){
+            const script = document.createElement("script");
+            script.src = `//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=${process.env.VUE_APP_KAKAOMAP_KEY}`;
 
-        const container = this.$refs.map
-        // const options = {
-        //     center: new kakao.maps.LatLng(35.193681, 126.825577, 16),
-        //     level: 5,
-        // }
-        const {center, level} = this.options
-        const mapInstance = new kakao.maps.Map(container, {
-            center: new kakao.maps.LatLng(center.lat, center.lng),
-            level: level,
-        })
-        console.log(mapInstance)
+            script.addEventListener("load", () => {
+                kakao.maps.load(this.initMap);
+            });
+            document.head.appendChild(script);
+        } else {
+            this.initMap();
+        }
+        
+
+
+        
+    },
+    methods: {
+        initMap() {
+            
+        
+
+            const container = this.$refs.map
+            const {center, level} = this.options
+            const mapInstance = new kakao.maps.Map(container, {
+                center: new kakao.maps.LatLng(center.lat, center.lng),
+                level: level,
+            })
+            console.log(mapInstance)
+
+        }
     }
 
 }
