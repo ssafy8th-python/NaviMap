@@ -45,27 +45,37 @@ def create(request):
     
 
 @api_view(['GET'])
-def mainpage(request, weather_data):
+def mainpage(request):
     latest_recos = Theme.objects.order_by('-created')[:6]
     popular_recos = Theme.objects.annotate(like_count=Count('theme_likes')).order_by('-like_count')[:6]
     
 
-    # 오늘의 추천 3개 (날씨, 계절, 미세먼지 등 알고리즘 적용)
+    # 오늘의 추천 3개 (날씨, 계절 등 알고리즘 적용)
+    weather_data = weather(request._request, 37.532600, 127.024612).data # 서울 좌표임
     today_recos = today_reco(weather_data)
 
     # 개인별 추천 3개 (좋아요한 테마와 비슷한 테마, 좋아요한 유저의 테마, 최근 검색한 테마와 비슷한 테마 등)
-    # personal_recos = []
+    user = request.user
+    if request.user.is_anonymous:
+        personal_recos = when_empty_recos()
+    # else:
+    #     personal_recos = personal_reco(user)
+    # personal_recos = personal_reco(user) # 로그인이 될 때 다시 해봐야함
+
+    personal_recos = [] # 임시
+    if not personal_recos:
+        personal_recos = when_empty_recos()
 
     latest_serializer = MainPageSerializer(latest_recos, many=True)
     popular_serializer = MainPageSerializer(popular_recos, many=True)
     today_serializer = MainPageSerializer(today_recos, many=True)
-    # personal_serializer = MainPageSerializer(personal_recos, many=True)
+    personal_serializer = MainPageSerializer(personal_recos, many=True)
 
     data = {
         'latest_recos': latest_serializer.data,
         'popular_recos': popular_serializer.data,
         'today_recos': today_serializer.data,
-        # 'personal_recos': personal_serializer.data,
+        'personal_recos': personal_serializer.data,
     }
     
     return Response(data)
@@ -192,10 +202,10 @@ def today_reco(weather_data):
 
     # 임시태그 (tags의 pk가 담겨있어야함)
     SEASON_TAGS = {
-        'spring': [1, 2, 3, 4], # ['따뜻한', '화려한', '포근한', '설레는'],
-        'summer': [5, 6, 7, 8], # ['시원한', '신나는', '붐비는', '화끈한'],
-        'autumn': [9, 10, 11, 12], # ['분위기 있는', '은은한', '차분한', '조용한'],
-        'winter': [1, 3, 12, 13], # ['따뜻한', '포근한', '조용한', '안락한'],
+        'spring': [55, 32], # [햇살좋은, 아름다운 경치]
+        'summer': [56, 64], # [붐비는, 밝은]
+        'autumn': [29, 59, 58], # [조용한, 인스타감성, 빈티지]
+        'winter': [29, 65], # [조용한, 어두운]
     }
     month = {
         3: 'spring',
@@ -212,7 +222,7 @@ def today_reco(weather_data):
         2: 'winter',
     }
     season = month.get(this_month)
-    
+
     theme_season = Theme.objects.filter(
             theme_tags__in=SEASON_TAGS.get(season)
         ).annotate(
@@ -221,25 +231,25 @@ def today_reco(weather_data):
 
     if theme_season:
         today_recos.append(theme_season[0])
-    
+
     # 날씨별 추천
     cloud, precipitation = weather_data.get('cloud'), weather_data.get('precipitation')
     
     weather_tags = []
     weather_dict = {
-        '맑음': [6],
-        '구름많음': [9, 15],
-        '흐림': [3, 13],
-        '비': [9, 10],
-        '비눈': [1, 9],
-        '눈': [1, 3, 13],
-        '소나기': [11, 12],
-        '없음': [6, 7],
+        '맑음': [60, 56], # [건강한, 붐비는]
+        '구름많음': [59, 62, ], # [인스타감성, 아름다운 경치, ]
+        '흐림': [29, 58], # [조용한, 빈티지]
+        '비': [65, 61], # [어두운, 주차편한]
+        '비눈': [61, 29], # [주차편한, 조용한]
+        '눈': [61, 59], # [주차편한, 인스타감성]
+        '소나기': [58, 61], # [빈티지, 주차편한]
+        '없음': [55, 57], # [햇살좋은, 깔끔한]
     }
     weather_tags.extend(weather_dict.get(cloud))
     weather_tags.extend(weather_dict.get(precipitation))
     weather_tags = list(set(weather_tags))
-    
+
     theme_weather = Theme.objects.filter(
             theme_tags__in=weather_tags
         ).annotate(
@@ -252,8 +262,39 @@ def today_reco(weather_data):
     return today_recos
 
 
+def personal_reco(user):
+    personal_recos = []
+
+    # 좋아요한 테마의 태그
+    like_themes_pks = user.user_themes_likes.theme_id
+    if like_themes_pks:
+        tags = {}
+        
+        for like_theme_pk in like_themes_pks:
+            theme_tags = Theme.objects.filter(themes_pk=like_theme_pk).theme_tags
+
+            for tag in theme_tags:
+                if tag in tags:
+                    tags[tag] += 1
+                else:
+                    tags[tag] = 1
+        
+        most_tag = sorted(tags.items(), key=lambda x:x[1])[-1][0]
+        themes = Tag.tag_themes.filter(tag_id=most_tag)
+        personal_recos = themes.annotate(
+                like_count=Count('theme_likes')
+            ).order_by('-like_count')[:3]
+    
+    return personal_recos
+
+
+def when_empty_recos():
+    themes = Theme.objects.annotate(like_count=Count('theme_likes')).order_by('-like_count')[:3]
+    return themes
+
 def test(target):
     print('@@@@@@@@@@@@@@@@@@@@@@@@@@')
     print(target)
     print(type(target))
     print('@@@@@@@@@@@@@@@@@@@@@@@@@@')
+
