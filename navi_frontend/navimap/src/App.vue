@@ -9,6 +9,7 @@
     </div>
     </nav> -->
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
+
   <div class="container-fluid">
     <a class="navbar-brand" href="#"><img src="@/assets/Navimap_logo.png" style="width:150px; text-align:left;"></a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
@@ -31,6 +32,7 @@
         <li class="nav-item">
           <a class="nav-link" href="#">🔑로그인</a>
         </li>
+
         <!-- <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             Dropdown link
@@ -40,7 +42,7 @@
             <li><a class="dropdown-item" href="#">Another action</a></li>
             <li><a class="dropdown-item" href="#">Something else here</a></li>
           </ul>
-        </li> -->
+        </li> 
       </ul>
     </div>
   </div>
@@ -61,19 +63,13 @@
       <PersonalRecommended/>
     </v-row>
     <br>
-    <v-divider></v-divider>
+    <v-divider></v-divider>      
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <router-view></router-view>
 
-    <!-- 최근 만든 테마 & 인기 있는 테마 카드 창 -->
-    <RecentThema/>
-    <PopularThema/>
-    
-    <!-- 전체 테마 보기 버튼 -->
-    <v-btn 
-      style="margin:auto; width: 96.5%; display: block;"
-      >
-      전체 테마 보기
-    </v-btn>
-    <br>
     
     <!-- 테마 추가 버튼 -->
     <div>
@@ -100,24 +96,13 @@
   </div>
 </template>
 <script>
-import TodayRecommended from '@/views/Home/TodayRecommended.vue'
-import PersonalRecommended from '@/views/Home/PersonalRecommended.vue'
-import RecentThema from '@/views/Home/RecentThema.vue'
-import PopularThema from '@/views/Home/PopularThema.vue'
 import ThemaCreateModal from '@/views/Home/ThemaCreateModal.vue'
-import SearchBar from '@/views/Home/SearchBar.vue'
 
 export default {
   name: 'App',
   components: {
-    TodayRecommended,
-    PersonalRecommended,
-    RecentThema,
-    PopularThema,
     ThemaCreateModal,
-    SearchBar,
-  },
-  data () {
+
   },
   
 }
