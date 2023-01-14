@@ -30,10 +30,10 @@
           <a class="nav-link" href="#">⚙️마이페이지</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">🔑로그인</a>
+          <span class="nav-link" @click="kakaoLogin">🔑로그인</span>
         </li>
 
-        <!-- <li class="nav-item dropdown">
+        <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             Dropdown link
           </a>
@@ -96,6 +96,7 @@
   </div>
 </template>
 <script>
+import axios from 'axios'
 import ThemaCreateModal from '@/views/Home/ThemaCreateModal.vue'
 
 export default {
@@ -104,7 +105,18 @@ export default {
     ThemaCreateModal,
 
   },
-  
+  methods:{
+    kakaoLogin(){
+      axios({
+        method:'get',
+        url:"http://127.0.0.1:8000/api/v1/accounts/kakao/login/getcode/",
+      })
+        .then((res)=>{
+          window.location.href=res.data.kakao_login_url
+        })
+        .catch((err)=> {console.log(err)})
+    }
+  }
 }
 </script>
 

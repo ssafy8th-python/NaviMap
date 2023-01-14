@@ -3,13 +3,14 @@ import VueRouter from 'vue-router'
 import ThemeDetailView from '@/views/ThemeDetailView.vue'
 import PlaceDetailView from '../views/PlaceDetailView'
 import AddPlaceView from '../views/AddPlaceView'
+import LoginView from '../views/LoginView'
 import MainPage from '../views/MainPage'
 
 Vue.use(VueRouter)
 
 const routes = [
   {
-    path:"/home",
+    path:"/",
     name: 'MainPage',
     component: MainPage
   },
@@ -27,6 +28,12 @@ const routes = [
     path: '/add-place',
     name: 'add-place',
     component: AddPlaceView
+  },
+  {
+    path: '/login',
+    name: 'login',
+    component :LoginView
+
   }
 ]
 

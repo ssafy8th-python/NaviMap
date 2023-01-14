@@ -43,7 +43,7 @@ class KakakoLogin:
         return requests.get(kakao_userinfo_api, headers=kakao_userinfo_headers).json()
 
 
-    def jwt_create(kakako_profile):
+    def jwt_create(kakako_profile, access_token):
         '''
         기존 사용자: simple-jwt로 바로 jwt 발급
 
@@ -70,6 +70,7 @@ class KakakoLogin:
         user.profile_image = profile.get('profile_image_url')
         user.thumbnail_image = profile.get('thumbnail_image_url')
         user.email = kakao_account.get('email')
+        user.kakao_access_token = access_token
         user.save()
 
         # jwt 발급
@@ -81,3 +82,12 @@ class KakakoLogin:
             user.save()
 
         return jwt
+    
+
+    def unlink(user):
+        '''
+        앱과 카카오 계정 연결 끊기
+        '''
+        kakao_unlink_api = 'https://kapi.kakao.com/v1/user/unlink'
+        kakao_unlink_headers = {'Authorization': f'Bearer {user.kakao_access_token}/KakaoAK'}
+        return requests.post(kakao_unlink_api, headers=kakao_unlink_headers).json()
